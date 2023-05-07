@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+* {
+    /* border: 1px solid red; */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Muli';
+}
+
+img {
+    height: 300px;
+    display: block
+}
+
+.product {
+    display: inline-block;
+    text-align: center;
+    margin: 20px 5px;
+
+}
+
+.row {
+    text-align: center;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.price {
+    color:green;
+    font-weight: bold;
+    margin: 5px
+}
+
+span {
+    color:grey;
+    text-decoration: line-through;
+    margin-left: 5px;
+}
+
+button {
+    text-transform: uppercase;
+    background-color: white;
+    color:grey;
+    font-weight: bold;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+/* dots */
+.dot {
+    width: 50px;
+    height: 50px;
+    border-radius: 200px;
+    text-align: center;
+    padding-top: 15px;
+    color: white;
+    font-weight: bold;
+    position:relative;
+    top:60px;
+    display: inline-block
+}
+
+.new {
+    background-color: green;
+    border-color: green;
+    left: -25%;
+}
+
+.discount {
+    border-color: red;
+    background-color: red;
+    left: 20%;
+}

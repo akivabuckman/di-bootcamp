@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+* {
+    /* border: 1px solid turquoise; */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Muli';
+}
+
+
+/* GRID */
+.square {
+    background-color: yellow;
+    border: 2px solid black;
+    height: 60px;
+    width: 60px;
+    /* margin: 5px 20px; */
+}
+
+div {
+    display: grid;
+}
+
+.outer {
+    grid-template-columns: 1fr 5fr 1fr;
+    justify-items: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.inner {
+    gap: 5px 40px;
+}
+
+.even {
+    grid-template-columns: repeat(4, 1fr);
+}

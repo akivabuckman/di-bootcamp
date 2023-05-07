@@ -1,0 +1,335 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+/* GENERAL PROPERTIES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Muli', sans-serif;
+}
+
+html {
+    scroll-behavior:smooth; /* smooth scroll navigation */
+}
+
+/* TABLE PROPERTIES */
+table, .table {
+    border-collapse: collapse; 
+    font-size: .9em;
+    /* min-width: 900px; */
+    margin: 0 .9em;
+    border-radius: 10px 10px 5px 5px;
+    overflow: hidden;
+    -moz-box-shadow: 5px 5px 5px #888;
+    -webkit-box-shadow: 5px 5px 5px #888;
+    box-shadow: 5px 5px 5px #888;
+    /* position:relative; */
+}
+
+
+.table thead tr {
+    background-color:dodgerblue;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.table tbody tr td,
+.table thead tr th {
+    padding: 12px 20px;
+    width:30vw;
+    border: 1px solid grey;
+    text-align: center;
+}
+
+.table tbody tr:nth-of-type(even) { /*alternating row colors */
+    background-color: #f3f3f3;
+}
+
+input:checked ~ span {
+    color:#5b50ff;
+    text-decoration: line-through;
+}
+
+
+/* LAYOUT PROPERTIES */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 0px 10px;
+    position:fixed;
+    background-color: white;
+    width: 100vw;
+    padding: 0 20px 0 20px;
+    z-index: 2;
+}
+
+img {
+    width: 50px;
+}
+
+h1, p {
+    text-align: center;
+    padding: 30px;
+    color:royalblue;
+}
+
+p {
+    padding: 40px 30px 20px 30px;
+}
+.scenario_list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.scenario_link{
+    display: flex;
+    justify-content: left;
+    margin: 10px 50px;
+    align-items: center;
+}
+
+a img {
+    margin: 20px
+}
+
+.container {
+    height: 70px;
+}
+
+.bank-title {
+    display: flex;
+    justify-content: center;
+    margin: 0px 0px 20px 0px;
+    align-items: center;
+    background-color: white;
+    width: 100vw;
+}
+
+.word_bank_div, .word_bank_div div {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+hr, .line {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-self: center;
+    width: 50%;
+    height: 5px;
+    border-radius: 20px;
+    background: linear-gradient(to left, blue, white)
+}
+
+#hrsgas {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-self: center;
+    width: 50%;
+    height: 5px;
+    border-radius: 20px;
+    background: linear-gradient(to left, blue, white)
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#supermarket {
+    margin-bottom: 10px;
+}
+
+.top-button {
+    border-radius: 50%;
+    position: fixed;
+    top: 90vh;
+    left: 80vw;
+    /* transform: translateY(40%); */
+    transition: all 1s ease-out;
+    z-index: 2;;
+}
+
+/* //This is used to control the animation speed and its duration */
+.scenario_link, tr {
+    transition: transform .5s;
+}
+
+
+/* //This property is used to change the properties of the image on hover */
+.scenario_link:hover{
+    transform:scale(1.3)
+}
+
+tr:hover {
+    transform: scale(1.05)
+}
+
+/* responsiveness */
+/* on small screen, no scroll up button or intro paragraph */
+@media (max-width: 400px) {
+    .top-button, p, .goodluck {
+      display: none;
+    }
+}
+
+/* on large screen, dictionaries dont span the entire width of screen */
+@media (min-width: 900px) {
+    .table td, .words {
+        width: 900px;
+        align-self: center;
+        align-items: center;
+    }
+    
+}
+
+/* add effect that logos stay in place while scrolling: */
+
+/* .word_bank_div {
+    max-height: 200px;
+} */
+  
+.bank-title {
+    text-align: center;
+    position: sticky;
+    top: 100px;
+    z-index: 1;
+}
+  
+.bank-title img {
+    text-align: center;
+    line-height: 1;
+    color: #fff;
+}
+/* also heads of tables sticky */
+  
+thead {
+    text-align: center;
+    position: sticky;
+    top: 200px;
+    z-index: 2;
+}
+  
+
+/* more table formatting */
+.words {
+    /* margin-top: -35px; */
+    background-color: white;
+}
+
+.words:last-of-type {
+    padding-bottom: 30px
+}
+
+/* button formatting */
+.scenario_link {
+    border: 5px solid #555;
+    border-radius: 1000px;
+}
+
+h2 {
+    /* padding-right: 20px; */
+    text-decoration: none;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    width:300px
+}
+
+/* styles by scenario */
+.airport {
+    color:crimson;
+    border-color:crimson;
+
+}
+
+.gas {
+    color:coral;
+    border-color:coral;
+}
+
+.transport {
+    color:darkolivegreen;
+    border-color:darkolivegreen;
+}
+
+.restaurant {
+    color:darkblue;
+    border-color:darkblue;
+}
+
+.supermarket {
+    color:indigo;
+    border-color:indigo;
+}
+
+table.airport th {
+    background-color: crimson;
+}
+
+table.gas th {
+    background-color: coral;
+}
+
+table.transport th {
+    background-color: darkolivegreen;
+}
+
+table.restaurant th {
+    background-color: darkblue;
+}
+
+table.supermarket th {
+    background-color: indigo;
+}
+
+a div {
+    width: 150px
+}
+
+tr td:first-of-type {
+    font-weight: bold;
+    text-align: left !important;
+}
+
+.goodluck {
+    text-align: center;
+    font-weight: bolder;
+    font-size: 24px;
+    text-shadow: 3px 3px #558ABB;
+    background: -webkit-linear-gradient(#eee, #5b50ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+iframe {
+    height: 100px;
+}
+
+/* align checkboxes */
+td:first-of-type span {
+    text-align: center;
+    text-justify: right;
+    padding-left: 50px;
+    width: 50px;
+
+}
+
+td div {
+    display: inline;
+}
+
+thead, th {
+    text-align: center;
+    position: sticky;
+    top: 0;
+    font:bolder;
+    z-index: 2;
+}

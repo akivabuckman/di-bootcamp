@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+* {
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+    font-family: 'Muli';
+}
+
+body {
+    margin:0;
+}
+nav, footer {
+    background-color: black;
+}
+
+header {
+    position: fixed;
+    width: 100vw;
+}
+header img {
+    height: 80px;
+    padding-top: 3px;
+}
+li {
+    display: inline-block;
+    list-style: none;
+    /* position: absolute; */
+    padding: 30px 70px 30px 30px;
+}
+
+a {
+    text-transform:uppercase;
+    font-size: 20px;
+    color:white;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+nav li:first-of-type {
+    position:absolute;
+    left: 60px;
+    padding: 0px;
+}
+
+ul {
+    text-align: right;
+    margin:0;
+}
+
+main {
+    background-image: url('thor.jpg');
+    background-size: cover;
+}
+
+main div:first-of-type {
+    height: 400px;
+}
+h1 {
+    text-transform: uppercase;
+    font-size: 80px;
+    padding: 0 0px 40px 40px;
+    margin: 0;
+    position: sticky;
+    top: 80px;
+}
+
+
+p {
+    width: 1500px;
+    margin:100px 40px 140px 40px;
+    font-size: 40px;
+    background-color: rgba(225,225,225,.5);
+    position:sticky;
+    top:190px;
+    /* z-index: 1 */
+}
+
+p + div {
+    height:100px
+}
+footer ul {
+    text-align: center;
+}

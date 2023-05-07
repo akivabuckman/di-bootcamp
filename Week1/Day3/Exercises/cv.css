@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+* {
+    border: 1px solid turquoise;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Muli';
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header {
+    margin: 0 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.name {
+    font-size: 2rem;
+}
+
+.last {
+    font-weight:1000;
+}
+
+.orange {
+    border:2px solid orange;
+    border-radius: 10px;
+    width: 50px;
+}
+
+.grey {
+    border:2px solid grey;
+    border-radius: 10px;
+    width: 600px;
+}

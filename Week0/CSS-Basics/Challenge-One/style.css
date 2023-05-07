@@ -1,0 +1,9 @@
+body {
+  background-color: lightsalmon;
+}
+
+div, h1 {
+  border-style: dashed;
+  background-color: darkkhaki;
+  display: block;
+}

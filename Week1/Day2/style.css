@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+* {
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+    font-family: 'Muli';
+    margin:0;
+    padding:0;
+}
+
+nav, footer {
+    background-color: black;
+}
+
+header {
+    position: fixed;
+    width: 100vw;
+    z-index: 2;
+}
+header img {
+    height: 9vh;
+    padding-top: 3px;
+}
+li {
+    display: inline-block;
+    list-style: none;
+    /* position: absolute; */
+    padding: 30px 70px 30px 30px;
+    padding: 3% 3% 3% 3%
+}
+
+a {
+    text-transform:uppercase;
+    font-size: 20px;
+    color:white;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+nav li:first-of-type {
+    position:absolute;
+    left: 60px;
+    padding: 0px;
+}
+
+ul {
+    text-align: right;
+    margin:0;
+}
+
+main {
+    background-image: url('thor.jpg');
+    background-size: cover;
+}
+
+main div:first-of-type {
+    height: 400px;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-size: 80px;
+    padding: 0 20px 0px 40px;
+    margin: 0;
+    position: sticky;
+    top: 12vh;
+    z-index: 1;
+}
+
+
+p {
+    width: 75vw;
+    margin:0 40px 140px 40px;
+    font-size: 40px;
+    background-color: rgba(225,225,225,.5);
+    overflow-wrap: break-word;
+}
+
+p + div {
+    height:100px
+}
+footer ul {
+    text-align: center;
+    padding:0;
+}
+
+/* small */
+@media all and (max-width: 768px) { 
+    h1 {
+        font-size: 35px;
+    }
+
+    nav, nav a {
+        background-color: yellow;
+        color: black;
+    }
+}
+
+/* medium */
+@media all and (min-width: 768px) and (max-width: 992px) {
+    h1 {
+        font-size: 25px;
+    }
+
+    nav, nav a {
+        background-color: lightgreen;
+        color: black;
+    }
+}
+
+/* large */
+@media all and (min-width: 992px) and (max-width: 1200px) {
+    h1 {
+        font-size: 35px;
+        float: left;
+    }
+
+    nav, nav a {
+        background-color: red;
+        color: white;
+    }
+}
+
+
+/* xl */
+@media all and (min-width: 1200px) {
+    h1 {
+        float: left;
+    }
+
+    nav, nav a {
+        background-color: black;
+        color: white;
+    }
+}

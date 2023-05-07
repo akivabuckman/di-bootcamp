@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+* {
+    /* border: 1px solid turquoise; */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Muli';
+}
+
+/* FLEX */
+div {
+    display: flex;
+}
+
+.outer {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inner:not(.even) {
+    flex-direction: column;
+}
+
+.even {
+    /* justify-content: left; */
+}
+
+.square {
+    background-color: yellow;
+    border: 2px solid black;
+    height: 60px;
+    width: 60px;
+    margin: 5px 20px;
+}
