@@ -22,4 +22,5 @@ def xp2():
     elif month == 12 or 0 < month <=2:
         return "Winter"
 
+xp1()
 xp2()
