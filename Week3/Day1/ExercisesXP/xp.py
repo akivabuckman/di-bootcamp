@@ -52,7 +52,7 @@ def xp5():
 
 @run_exercise
 def xp6():
-    a = 1
+    a = 5
     b = 4
     if a > b:
         return "Hello World"
