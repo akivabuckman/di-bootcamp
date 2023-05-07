@@ -26,7 +26,7 @@ def xp3():
             values.append(eval(i))
         except TypeError:
             values.append("TypeError")
-    statement = ""
+    statement = f"Queries: {queries}\n"
     statement += f"Predictions: {predictions}\n"
     statement += f"Values: {values}\n\n"
     if predictions == values:
