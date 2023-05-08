@@ -134,3 +134,5 @@ def xp11():
         finished_sandwiches.append(sandwich_orders[choice])
         sandwich_orders.remove(sandwich_orders[choice])
     print(f"finished sandwiches: {finished_sandwiches}")
+
+xp10()
