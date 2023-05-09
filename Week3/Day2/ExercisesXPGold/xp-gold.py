@@ -39,3 +39,14 @@ def xp6():
     for i in words:
         print(i.index(letter))
 
+def xp7():
+    nums = list(range(1,1_000_001))
+    print(sum(nums))
+
+xp1()
+xp2()
+xp3()
+xp4()
+xp5()
+xp6()
+xp7()
