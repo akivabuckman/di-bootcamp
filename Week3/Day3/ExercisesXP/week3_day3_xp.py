@@ -93,54 +93,60 @@ def xp3():
           f" the previous value.\n"
           f"number_stores: {info['number_stores']}")
 
-print("xp4:")
-users = ["Mickey","Minnie","Donald","Ariel","Pluto"]
-# #1/
-#
-# >>> print(disney_users_A)
-# {"Mickey": 0, "Minnie": 1, "Donald": 2, "Ariel": 3, "Pluto": 4}
-#
-# #2/
-#
-# >>> print(disney_users_B)
-# {0: "Mickey",1: "Minnie", 2: "Donald", 3: "Ariel", 4: "Pluto"}
-#
-# #3/
-#
-# >>> print(disney_users_C)
-# {"Ariel": 0, "Donald": 1, "Mickey": 2, "Minnie": 3, "Pluto": 4}
+def xp4():
+    print("xp4:")
+    users = ["Mickey","Minnie","Donald","Ariel","Pluto"]
+    # #1/
+    #
+    # >>> print(disney_users_A)
+    # {"Mickey": 0, "Minnie": 1, "Donald": 2, "Ariel": 3, "Pluto": 4}
+    #
+    # #2/
+    #
+    # >>> print(disney_users_B)
+    # {0: "Mickey",1: "Minnie", 2: "Donald", 3: "Ariel", 4: "Pluto"}
+    #
+    # #3/
+    #
+    # >>> print(disney_users_C)
+    # {"Ariel": 0, "Donald": 1, "Mickey": 2, "Minnie": 3, "Pluto": 4}
 
-# Use a for loop to recreate the 1st result. Tip : don’t hardcode the numbers.
-# Use a for loop to recreate the 2nd result. Tip : don’t hardcode the numbers.
-# Use a method to recreate the 3rd result. Hint: The 3rd result is sorted alphabetically.
-disney_users_A = {}
-for index, item in enumerate(users):
-    disney_users_A[item] = index
-print(f'A: {disney_users_A}')
-
-disney_users_B = {}
-for index, item in enumerate(users):
-    disney_users_B[index] = item
-print(f"B: {disney_users_B}")
-
-disney_users_C = {}
-for index,item in enumerate(sorted(users)):
-    disney_users_C[item] = index
-print(f"C: {disney_users_C}")
-
-# Only recreate the 1st result for:
-# The characters, which names contain the letter “i”.
-disney_users_A = {}
-for index, item in enumerate(users):
-    if 'i' in item:
+    # Use a for loop to recreate the 1st result. Tip : don’t hardcode the numbers.
+    # Use a for loop to recreate the 2nd result. Tip : don’t hardcode the numbers.
+    # Use a method to recreate the 3rd result. Hint: The 3rd result is sorted alphabetically.
+    disney_users_A = {}
+    for index, item in enumerate(users):
         disney_users_A[item] = index
-print(f'A: {disney_users_A}')
+    print(f'A: {disney_users_A}')
 
-# Only recreate the 1st result for:
-# The characters, which names start with the letter “m” or “p”.
-disney_users_A = {}
-for index, item in enumerate(users):
-    print(index, item)
-    if item[0] == 'M' or item[0] == 'P':
-        disney_users_A[item] = index
-print(f'A: {disney_users_A}')
+    disney_users_B = {}
+    for index, item in enumerate(users):
+        disney_users_B[index] = item
+    print(f"B: {disney_users_B}")
+
+    disney_users_C = {}
+    for index,item in enumerate(sorted(users)):
+        disney_users_C[item] = index
+    print(f"C: {disney_users_C}")
+
+    # Only recreate the 1st result for:
+    # The characters, which names contain the letter “i”.
+    disney_users_A = {}
+    for index, item in enumerate(users):
+        if 'i' in item:
+            disney_users_A[item] = index
+    print(f'A: {disney_users_A}')
+
+    # Only recreate the 1st result for:
+    # The characters, which names start with the letter “m” or “p”.
+    disney_users_A = {}
+    for index, item in enumerate(users):
+        print(index, item)
+        if item[0] == 'M' or item[0] == 'P':
+            disney_users_A[item] = index
+    print(f'A: {disney_users_A}')
+
+xp1()
+xp2()
+xp3()
+xp4()
