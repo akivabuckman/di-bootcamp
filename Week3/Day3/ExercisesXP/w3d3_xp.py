@@ -142,7 +142,7 @@ def xp4():
     disney_users_A = {}
     for index, item in enumerate(users):
         print(index, item)
-        if item[0] == 'M' or item[0] == 'P':
+        if item[0].lower() in "mp":
             disney_users_A[item] = index
     print(f'A: {disney_users_A}')
 
