@@ -72,3 +72,38 @@ def xp3():
 
     stairway= Song(["There’s a lady who's sure","all that glitters is gold", "and she’s buying a stairway to heaven"])
     stairway.sing_me_a_song()
+
+def xp4():
+    class Zoo:
+        def __init__(self, zoo_name):
+            self.name = zoo_name
+            self.animals = []
+
+        def add_animal(self, new_animal):
+            if new_animal not in self.animals:
+                self.animals.append(new_animal)
+
+        def get_animals(self):
+            print(self.animals)
+
+        def sell_animal(self, animal_sold):
+            if animal_sold in self.animals:
+                self.animals.remove(animal_sold)
+
+        def sort_animals(self):
+            self.animals.sort()
+            self.groups = {}
+            first_letters = {animal[0] for animal in self.animals}
+            for index, letter in enumerate(first_letters):
+                self.groups[index + 1] = [animal for animal in self.animals if animal[0] == letter]
+
+
+        def get_groups(self):
+            print(self.groups)
+
+    ramat_gan_safari = Zoo("Ramat Gan Zoo")
+    ramat_gan_safari.add_animal('zebra')
+    ramat_gan_safari.add_animal('kangaroo')
+    ramat_gan_safari.add_animal('koala')
+    ramat_gan_safari.sort_animals()
+    ramat_gan_safari.get_groups()
