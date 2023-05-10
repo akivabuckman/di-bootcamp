@@ -61,4 +61,3 @@ while True:
         player_turn(player)
         display()
         check(player)
-
