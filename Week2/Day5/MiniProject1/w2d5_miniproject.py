@@ -21,7 +21,7 @@ def player_turn(player):
 
 
 def check(player):
-    transposed = np.rot90(spaces)  # do this so that the same function can check all rows, cols, and diags in one loop
+    transposed = np.rot90(spaces)  # do this so the same function can check all rows, cols, and diags in one loop
     for array in [spaces, transposed]:
         for row in array:  # so that we check the rows and diagonal, then rotates 90 degrees and does the same
             if all(space == player for space in row):  # checks rows and columns
