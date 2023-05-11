@@ -24,13 +24,14 @@ class Family:
         ]
         self.last_name = last_name
 
-    def born(self, **kwargs):  # i would not use kwargs but rather (self, name, age etc.) but the exercise says kwargs
-        self.members.append({
-            'name': kwargs['name'],
-            'age' : kwargs['age'],
-            'gender': kwargs['gender'],
-            'is_child' : kwargs['is_child']
-        })
+    def born(self, **kwargs):
+        self.members.append(kwargs)
+        # self.members.append({
+        #     'name': kwargs['name'],
+        #     'age' : kwargs['age'],
+        #     'gender': kwargs['gender'],
+        #     'is_child' : kwargs['is_child']
+        # })
         print(f"Congrats to the {self.last_name} family on the birth of {kwargs['name']}!")
 
     def is_18(self, member):
@@ -39,7 +40,7 @@ class Family:
                 return True if i['age'] > 18 else False
 
     def family_presentation(self):
-        print(self.last_name)
+        print(f"{self.last_name} Family:")
         for i in self.members:
             print(i['name'])
 
@@ -93,5 +94,6 @@ class TheIncredibles(Family):
             print(f"{i['incredible_name']}: {i['power']}")
 
 inc = TheIncredibles("Incrediman")
-
+inc.incredible_presentation()
+inc.born(name='Jack', gender='male', age='3', is_child=True, power='Unknown Power', incredible_name='Baby Jack')
 inc.incredible_presentation()
