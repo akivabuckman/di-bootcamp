@@ -5,8 +5,8 @@ spaces = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
 
 def player_turn(player):
     print(f"{player.upper()} Player's turn...")
-    row = int(input("Enter row 1-3: "))-1
-    column = int(input("Enter column 1-3: "))-1
+    row = int(input("Enter row 1-3: ")) - 1
+    column = int(input("Enter column 1-3: ")) - 1
     if not 0 <= row <= 2 or not 0 <= column <= 2:
         print("\nYou gotta pick 1-3 buddy.")
         display()
@@ -21,23 +21,18 @@ def player_turn(player):
 
 
 def check(player):
-    global game_on
-    transposed = np.array(spaces).T  # do this so that the same function can check rows and columns in one loop
+    transposed = np.rot90(spaces)  # do this so that the same function can check all rows, cols, and diags in one loop
     for array in [spaces, transposed]:
-        for row in array:
+        for row in array:  # so that we check the rows and diagonal, then rotates 90 degrees and does the same
             if all(space == player for space in row):  # checks rows and columns
                 print(f"{player.upper()} wins!")
-                game_on = False
                 quit()
-            if all(spaces[i][i] == player for i in range(3)):
+            if all(array[i][i] == player for i in range(3)):  # checks diagonal
                 print(f"{player.upper()} wins!")
-                game_on = False
                 quit()
-        if all(all(space != ' ' for space in row) for row in array): #checks for tie, if there are no ' 's
+        if all(all(space != ' ' for space in row) for row in array):  # checks for tie, if there are no ' 's
             print(f"Tie!")
-            game_on = False
             quit()
-
 
 
 def display():
@@ -53,11 +48,12 @@ def display():
     print(DISPLAY_ROWS[2])
     print(LINE)
 
+def play():
+    display()
+    while True:
+        for player in ['x', 'o']:
+            player_turn(player)
+            display()
+            check(player)
 
-game_on = True
-display()
-while True:
-    for player in ['x', 'o']:
-        player_turn(player)
-        display()
-        check(player)
+play()
