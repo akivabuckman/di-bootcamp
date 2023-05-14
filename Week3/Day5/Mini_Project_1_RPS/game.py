@@ -24,8 +24,6 @@ class Game:
 
     def play(self):
         print(f"You selected {self.get_user_item()}. Computer selected {self.get_computer_item()}. "
-              f"You {self.get_game_result()}")
+              f"You {self.get_game_result()}!\n\n")
+        return self.get_game_result()
 
-
-a = Game()
-a.play()
