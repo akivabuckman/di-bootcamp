@@ -1,7 +1,7 @@
 import string
 
-
 sample = "A good bo$ok would sometimes cost as much as a good house."
+
 
 class Text:
     def __init__(self, string):
@@ -21,8 +21,9 @@ class Text:
             file_text = file.readlines()
             return Text(file_text)
 
+
 class TextModification(Text):
-    def depunctuate(self):
+    def unpunctuate(self):
         self.text = self.text.translate(str.maketrans('', '', string.punctuation))
         return self
 
