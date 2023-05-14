@@ -21,8 +21,8 @@ def player_turn(player):
 
 
 def check(player):
-    transposed = np.rot90(spaces)  # do this so the same function can check all rows, cols, and diags in one loop
-    for array in [spaces, transposed]:
+    rotated = np.rot90(spaces)  # do this so the same function can check all rows, cols, and diags in one loop
+    for array in [spaces, rotated]:
         for row in array:  # so that we check the rows and diagonal, then rotates 90 degrees and does the same
             if all(space == player for space in row):  # checks rows and columns
                 print(f"{player.upper()} wins!")
@@ -36,7 +36,7 @@ def check(player):
 
 
 def display():
-    LINE = "*****************"
+    LINE = "*" * 17
     GRID = "*  ---|---|---  *"
     DISPLAY_ROWS = [f"*   {row[0]} | {row[1]} | {row[2]}   *" for row in spaces]
     print("\nTIC    TAC    TOE")
