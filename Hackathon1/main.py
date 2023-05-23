@@ -1,6 +1,6 @@
 import faker
 from login import Login
-
+from menu import Menu
 
 def main():
     active_user = Login().login()
@@ -17,4 +17,4 @@ def main():
 #         for i in range(amount):
 #             username =
 #             user = User()
-main()
+menu = Menu().display_menu('billy')
