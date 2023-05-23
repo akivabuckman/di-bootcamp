@@ -4,7 +4,7 @@ from menu import Menu
 
 def main():
     active_user = Login().login()
-    print(active_user)
+    menu = Menu().display_menu(active_user)
 # class User:
 #     user_list = []
 #     def __init__(self, username, password):
@@ -17,4 +17,4 @@ def main():
 #         for i in range(amount):
 #             username =
 #             user = User()
-menu = Menu().display_menu('billy')
+main()

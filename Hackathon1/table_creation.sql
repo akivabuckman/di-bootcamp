@@ -43,3 +43,6 @@
 -- 	FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id),
 -- 	FOREIGN KEY (user_id) REFERENCES users(user_id)
 -- );
+
+-- INSERT INTO diets(diet_code, diet_name) VALUES
+-- (0, 'None'), (1, 'Vegetarian'), (2, 'Vegan'), (3, 'Celiac');

@@ -33,9 +33,9 @@ class Login:
                     return new_username
                 else:
                     new_username = self.fake.first_name()
-                    new_password = ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation)
+                    new_password = ''.join(random.choice(string.ascii_letters + string.digits)
                                            for _ in range(10))
-                    random_diet = random.randrange(0, 4)
+                    random_diet = int(random.choice("000000011223"))
                     print(f"Your username is {new_username}, your password is {new_password}, your diet code is "
                           f"{random_diet}.")
                     self.cursor.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
