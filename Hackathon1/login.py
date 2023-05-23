@@ -44,7 +44,7 @@ class Login:
                     while not valid_dc:
                         new_diet_code = input("Enter diet code. 0: None, 1: Vegetarian, 2: Vegan, 3: Celiac ")
                         if new_diet_code not in ['0', '1', '2', '3']:
-                            print("Choose blank, 0, 1, 2, or 3!")
+                            print("Choose 0, 1, 2, or 3!")
                             continue
                         else:
                             valid_dc = True

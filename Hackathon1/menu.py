@@ -8,9 +8,9 @@ class Menu:
         print("(U)pdate Existing Recipe")
         print("(V)iew Favorite Recipes")
         function_dict = {
-            'a': recipe_manager.add_new_recipe,
+            'a': recipe_manager.Recipe.add_new_recipe,
             's': recipe_manager.search_all_recipes,
-            'u': recipe_manager.update_existing_recipe,
+            'u': recipe_manager.Recipe.update_existing_recipe,
             'v': recipe_manager.view_favorite_recipes,
             'l': 'logout'
         }
