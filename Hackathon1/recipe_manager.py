@@ -9,25 +9,29 @@ EDAMAM_KEY = 'b2450a48ca06718b544940eb54b7acc2'
 
 
 class Recipe:
-    def add_recipe_to_favorites(self, active_user):
-        CURSOR.execute(f"SELECT recipe_name FROM favorites " # finds user's favorites' names
+    def add_recipe_to_favorites(self, active_user, input_type):
+        CURSOR.execute(f"SELECT recipe_name FROM favorites "  # finds user's favorites' names
                        f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
                        f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
                        f"ILIKE '{active_user}';")
         existing_faves = [i[0] for i in CURSOR.fetchall()]
         if self.name in existing_faves:
-            print(f"A favorite named {self.name} already exists. Choose another name.")
-            create_user_recipe(active_user)
-        CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
-                       f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
-                       f"'{self.diet_code}');")
-        CONNECTION.commit()
-        CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
-                       f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
-                       f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
-                       f"(SELECT MAX(recipe_id) FROM favorites)))")
-        CONNECTION.commit()
-        print(f"\n{self.name} added to Favorites")
+            if input_type == 'api':
+                print(f"A favorite named {self.name} already exists. Pick another action.")
+            elif input_type == 'user':
+                print(f"A favorite named {self.name} already exists. Use a different name.")
+                create_user_recipe(active_user)
+        else:
+            CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
+                           f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
+                           f"'{self.diet_code}');")
+            CONNECTION.commit()
+            CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
+                           f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
+                           f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
+                           f"(SELECT MAX(recipe_id) FROM favorites)))")
+            CONNECTION.commit()
+            print(f"\n{self.name} added to Favorites")
 
     def email_recipe(self, active_user):
         SENDER = 'akivabuckman@gmail.com'
@@ -107,7 +111,6 @@ def search_all_recipes(params, active_user):
     enum = enumerate(titles)
     for count, value in enum:
         print(f"{count + 1}.", value)
-    while True:
         view_choice = input("Which # recipe would you like to view? (1-10): ")
         try:
             view_choice = int(view_choice)
@@ -136,14 +139,16 @@ def view_favorite_recipes(active_user):
         print(f"{count + 1}.", value)
     view_choice = input("Which recipe would you like to view? Or (B) to go back: ").lower()
     if view_choice not in [str(int(i + 1)) for i in list(range(len(recipe_response)))] + ['b']:
-        print("Choose a number or (B)!")
+        print("\nChoose a relevant number or (B)!")
         view_favorite_recipes(active_user)
     elif view_choice == 'b':
         return
     else:
+        
         chosen_favorite = recipe_response[int(view_choice) - 1]
         print(chosen_favorite)
         view_specific_favorite(active_user, view_choice)
+
 
 def view_specific_api_recipe(recipe, params, active_user):
     CURSOR.execute(f"SELECT diet_name FROM diets WHERE diet_code = {recipe.diet_code}")  # converts API's diet info
@@ -157,13 +162,14 @@ def view_specific_api_recipe(recipe, params, active_user):
         recipe_view_choice = input("\nWhat would you like to do?\n(E)mail recipe\n(A)dd to favorites\n"
                                    "Back to search (R)esults\n(H)ome: ")
         if recipe_view_choice.lower() == 'a':
-            recipe.add_recipe_to_favorites(active_user)
+            recipe.add_recipe_to_favorites(active_user, 'api')
         elif recipe_view_choice.lower() == 'e':
             recipe.email_recipe(active_user)
         elif recipe_view_choice.lower() == 'r':
             search_all_recipes(params, active_user)
         elif recipe_view_choice.lower() == 'h':
             break
+
 
 def view_specific_favorite(active_user, view_choice):
     CURSOR.execute(f"SELECT favorites.recipe_name, favorites.cuisine, favorites.diet_code, favorites.cook_time,"
@@ -177,9 +183,13 @@ def view_specific_favorite(active_user, view_choice):
     diet = fav_info[2]
     cook_time = fav_info[3]
     ingredients = fav_info[4]
-    print(ingredients)
+    print(f"\n{recipe_name}")
+    print(f"Cuisine: {cuisine.title()}")
+    print(f"Diet Type: {diet}")
+    ingredients_print = ingredients.replace(', ', "\n")
+    print(f"\nIngredients:\n{ingredients_print}")
 
 
 def create_user_recipe(active_user):
     ur = UserRecipe()
-    ur.add_recipe_to_favorites(active_user)
+    ur.add_recipe_to_favorites(active_user, 'user')
