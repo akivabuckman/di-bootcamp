@@ -4,23 +4,12 @@ from menu import Menu
 import recipe_manager
 
 def main():
-    active_user = Login().login # initiates login, returns username
     while True:
-        menu_choice = Menu().display_menu(active_user) # displays menu, returns function to run (user choice)
-        if menu_choice == 'logout':
-            break
-        else:
-            menu_choice() # runs the function the user chose in previous line
-# class User:
-#     user_list = []
-#     def __init__(self, username, password):
-#         self.username = username
-#         self.password = password
-#
-#
-#     @classmethod
-#     def create_fake_users(cls,amount):
-#         for i in range(amount):
-#             username =
-#             user = User()
+        active_user = Login().login # initiates login, returns username
+        while True:
+            menu_choice = Menu().display_menu(active_user) # displays menu, returns function to run (user choice)
+            if menu_choice == 'logout':
+                break
+            else:
+                menu_choice(active_user) # runs the function the user chose in previous line
 main()

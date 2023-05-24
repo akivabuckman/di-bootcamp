@@ -40,20 +40,23 @@ class Login:
                             continue
                         else:
                             valid_pw = True
-                    valid_dc = False
-                    while not valid_dc:
+                    while True:
                         new_diet_code = input("Enter diet code. 0: None, 1: Vegetarian, 2: Vegan, 3: Celiac ")
                         if new_diet_code not in ['0', '1', '2', '3']:
                             print("Choose 0, 1, 2, or 3!")
                             continue
                         else:
-                            valid_dc = True
+                            break
                     self.cursor.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
                                         f"'{new_password}', '{new_diet_code}');")
                     self.connection.commit()
                     return new_username
                 else:
                     new_username = self.fake.first_name()
+                    self.cursor.execute("SELECT username FROM users")
+                    existing_names = [i[0] for i in self.cursor.fetchall()]
+                    if new_username in existing_names:
+                        new_username += str(random.randint(1,1000))
                     new_password = ''.join(random.choice(string.ascii_letters + string.digits)
                                            for _ in range(10))
                     random_diet = int(random.choice("000000011223"))
@@ -64,17 +67,11 @@ class Login:
                     self.connection.commit()
                     return new_username
             else:
-                self.login
+                self.login()
         else:
             while True:
                 given_password = input("Password: ")
                 self.cursor.execute(f"SELECT password FROM users WHERE username ILIKE '{given_user}'")
-                # a = (self.cursor.fetchall())
-                # b = self.cursor.fetchall()
-                # print(a)
-                # print(b)
-                # print(a[0])
-                # print(a[0][0])
                 correct_password = self.cursor.fetchall()[0][0]
                 if correct_password == given_password:
                     print(f"Welcome {given_user}, you're now logged in.")

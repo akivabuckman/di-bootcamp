@@ -5,12 +5,10 @@ class Menu:
         print(f"\nHey {active_user}, what would you like to do?")
         print("(A)dd New Recipe")
         print("(S)earch All Recipes")
-        print("(U)pdate Existing Recipe")
         print("(V)iew Favorite Recipes")
         function_dict = {
-            'a': recipe_manager.Recipe.add_new_recipe,
-            's': recipe_manager.search_all_recipes,
-            'u': recipe_manager.Recipe.update_existing_recipe,
+            'a': recipe_manager.create_user_recipe,
+            's': recipe_manager.get_search_parameters,
             'v': recipe_manager.view_favorite_recipes,
             'l': 'logout'
         }

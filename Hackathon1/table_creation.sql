@@ -17,8 +17,8 @@
 -- 	diet_name VARCHAR(20) NOT NULL
 -- );
 
--- CREATE TABLE recipes (
--- 	recipe_name VARCHAR(50) NOT NULL,
+-- CREATE TABLE favorites (
+-- 	recipe_name VARCHAR(50) NOT NULL UNIQUE,
 -- 	recipe_id SERIAL PRIMARY KEY,
 -- 	ingredients TEXT,
 -- 	instructions TEXT,
@@ -30,19 +30,22 @@
 
 -- CREATE TABLE users (
 -- 	user_id SERIAL PRIMARY KEY,
--- 	username VARCHAR(50) NOT NULL,
+-- 	username VARCHAR(50) NOT NULL UNIQUE,
 -- 	password VARCHAR(50) NOT NULL,
 -- 	diet_code INTEGER,
 -- 	FOREIGN KEY (diet_code) REFERENCES diets(diet_code)
 -- );
 
--- CREATE TABLE user_recipe (
+-- CREATE TABLE user_favorites (
 -- 	recipe_id INTEGER NOT NULL,
 -- 	user_id INTEGER NOT NULL,
 -- 	PRIMARY KEY (recipe_id, user_id),
--- 	FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id),
+-- 	FOREIGN KEY (recipe_id) REFERENCES favorites(recipe_id),
 -- 	FOREIGN KEY (user_id) REFERENCES users(user_id)
 -- );
 
 -- INSERT INTO diets(diet_code, diet_name) VALUES
 -- (0, 'None'), (1, 'Vegetarian'), (2, 'Vegan'), (3, 'Celiac');
+
+-- INSERT INTO user_favorites(user_id, recipe_id) VALUES
+-- (SELECT user_id FROM users WHERE username = 'Jose', SELECT recipe_id FROM favorites WHERE recipe_name = 'Salmon & leek parcels');
