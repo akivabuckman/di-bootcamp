@@ -48,4 +48,5 @@
 -- (0, 'None'), (1, 'Vegetarian'), (2, 'Vegan'), (3, 'Celiac');
 
 -- INSERT INTO user_favorites(user_id, recipe_id) VALUES
--- (SELECT user_id FROM users WHERE username = 'Jose', SELECT recipe_id FROM favorites WHERE recipe_name = 'Salmon & leek parcels');
+-- ((SELECT user_id from users where username ILIKE 'evelyn'),
+-- (select recipe_id from favorites where recipe_name ILIKE 'Mortadella Bolognese with Pistachio Gremolata'));

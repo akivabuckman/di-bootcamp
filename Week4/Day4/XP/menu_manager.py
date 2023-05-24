@@ -4,7 +4,7 @@ import psycopg2 as ps
 def connect_sql():
     HOSTNAME = 'localhost'
     USERNAME = 'postgres'
-    PASSWORD = 'mandolintheyanks6'
+    PASSWORD = '1234'
     DATABASE = 'menu'
     connection = ps.connect(host=HOSTNAME, user=USERNAME, password=PASSWORD, dbname=DATABASE)
     cursor = connection.cursor()

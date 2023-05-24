@@ -3,17 +3,18 @@ import faker
 import random
 import string
 
-
+CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='hackathon1')
+CURSOR = CONNECTION.cursor()
 class Login:
     def __init__(self):
         HOSTNAME = 'localhost'
         USERNAME = 'postgres'
         PASSWORD = '1234'
         DATABASE = 'hackathon1'
-        self.connection = psycopg2.connect(host=HOSTNAME, user=USERNAME, password=PASSWORD, dbname=DATABASE)
-        self.cursor = self.connection.cursor()
-        self.cursor.execute("SELECT * FROM users")
-        user_db = self.cursor.fetchall()
+        # CONNECTION = psycopg2.connect(host=HOSTNAME, user=USERNAME, password=PASSWORD, dbname=DATABASE)
+        CURSOR = CONNECTION.cursor()
+        CURSOR.execute("SELECT * FROM users")
+        user_db = CURSOR.fetchall()
         self.usernames = [i[1].lower() for i in user_db]
         self.fake = faker.Faker()
 
@@ -47,14 +48,14 @@ class Login:
                             continue
                         else:
                             break
-                    self.cursor.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
+                    CURSOR.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
                                         f"'{new_password}', '{new_diet_code}');")
-                    self.connection.commit()
+                    CONNECTION.commit()
                     return new_username
                 else:
-                    new_username = self.fake.first_name()
-                    self.cursor.execute("SELECT username FROM users")
-                    existing_names = [i[0] for i in self.cursor.fetchall()]
+                    new_username = self.fake.first_name() + str(random.randint(1,1000))
+                    CURSOR.execute("SELECT username FROM users")
+                    existing_names = [i[0] for i in CURSOR.fetchall()]
                     if new_username in existing_names:
                         new_username += str(random.randint(1,1000))
                     new_password = ''.join(random.choice(string.ascii_letters + string.digits)
@@ -62,17 +63,17 @@ class Login:
                     random_diet = int(random.choice("000000011223"))
                     print(f"Your username is {new_username}, your password is {new_password}, your diet code is "
                           f"{random_diet}.")
-                    self.cursor.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
+                    CURSOR.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
                                         f"'{new_password}', '{random_diet}');")
-                    self.connection.commit()
+                    CONNECTION.commit()
                     return new_username
             else:
                 self.login()
         else:
             while True:
                 given_password = input("Password: ")
-                self.cursor.execute(f"SELECT password FROM users WHERE username ILIKE '{given_user}'")
-                correct_password = self.cursor.fetchall()[0][0]
+                CURSOR.execute(f"SELECT password FROM users WHERE username ILIKE '{given_user}'")
+                correct_password = CURSOR.fetchall()[0][0]
                 if correct_password == given_password:
                     print(f"Welcome {given_user}, you're now logged in.")
                     return given_user
