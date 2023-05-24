@@ -9,7 +9,7 @@ class Menu:
         function_dict = {
             'a': recipe_manager.create_user_recipe,
             's': recipe_manager.get_search_parameters,
-            'v': recipe_manager.view_favorite_recipes,
+            'v': recipe_manager.view_favorites,
             'l': 'logout'
         }
         while True:

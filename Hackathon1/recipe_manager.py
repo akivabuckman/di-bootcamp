@@ -105,12 +105,14 @@ def search_all_recipes(params, active_user):
           f"{params['diet']}{params['cuisine']}"
     search_results = requests.get(url=URL).json()['hits']
     titles = [i['recipe']['label'] for i in search_results]
+    print(titles)
     if len(titles) == 0:
         print("No results. Search again.")
         get_search_parameters(active_user)
     enum = enumerate(titles)
     for count, value in enum:
         print(f"{count + 1}.", value)
+    while True:
         view_choice = input("Which # recipe would you like to view? (1-10): ")
         try:
             view_choice = int(view_choice)
@@ -127,7 +129,7 @@ def search_all_recipes(params, active_user):
                 continue
 
 
-def view_favorite_recipes(active_user):
+def view_favorites(active_user):
     CURSOR.execute(f"SELECT recipe_name FROM favorites "  # finds user's favorites' names
                    f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
                    f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
@@ -140,11 +142,10 @@ def view_favorite_recipes(active_user):
     view_choice = input("Which recipe would you like to view? Or (B) to go back: ").lower()
     if view_choice not in [str(int(i + 1)) for i in list(range(len(recipe_response)))] + ['b']:
         print("\nChoose a relevant number or (B)!")
-        view_favorite_recipes(active_user)
+        view_favorites(active_user)
     elif view_choice == 'b':
         return
     else:
-        
         chosen_favorite = recipe_response[int(view_choice) - 1]
         print(chosen_favorite)
         view_specific_favorite(active_user, view_choice)
@@ -172,8 +173,9 @@ def view_specific_api_recipe(recipe, params, active_user):
 
 
 def view_specific_favorite(active_user, view_choice):
-    CURSOR.execute(f"SELECT favorites.recipe_name, favorites.cuisine, favorites.diet_code, favorites.cook_time,"
-                   f" favorites.ingredients FROM favorites "  # finds user's favorites
+    CURSOR.execute(f"SELECT favorites.recipe_name, favorites.cuisine, favorites.diet_code, "
+                   f"favorites.cook_time,"
+                   f" favorites.ingredients, user_favorites.recipe_id FROM favorites "  # finds user's favorites
                    f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
                    f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
                    f"ILIKE '{active_user}';")
@@ -183,13 +185,18 @@ def view_specific_favorite(active_user, view_choice):
     diet = fav_info[2]
     cook_time = fav_info[3]
     ingredients = fav_info[4]
+    recipe_id = fav_info[5]
+    print(recipe_id)
     print(f"\n{recipe_name}")
     print(f"Cuisine: {cuisine.title()}")
     print(f"Diet Type: {diet}")
+    print(f"Cook time: {cook_time} minutes")
     ingredients_print = ingredients.replace(', ', "\n")
     print(f"\nIngredients:\n{ingredients_print}")
-
-
+    back_or_delete = input("(B)ack, or (D)elete this favorite? ")
+    if back_or_delete.upper() == 'D':
+        CURSOR.execute(f"DELETE FROM favorites WHERE recipe_id = {recipe_id}")
+        CONNECTION.commit()
 def create_user_recipe(active_user):
     ur = UserRecipe()
     ur.add_recipe_to_favorites(active_user, 'user')
