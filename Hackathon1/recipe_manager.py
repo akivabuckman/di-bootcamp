@@ -198,9 +198,10 @@ def create_user_recipe(active_user):
     ur.add_recipe_to_favorites(active_user, 'user')
 
 def email_recipe(display_text, active_user):
+    from passwords import gmail_pw
     SENDER = 'akivabuckman@gmail.com'
     RECEIVER = 'akivabuckman@yahoo.com'
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login(SENDER, 'sgszmnavexwhkdzi')
+        smtp.login(SENDER, gmail_pw)
         smtp.sendmail(SENDER, RECEIVER, msg=display_text)
 
