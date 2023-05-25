@@ -191,17 +191,48 @@ def view_specific_favorite(active_user, view_choice):
         CURSOR.execute(f"DELETE FROM favorites WHERE recipe_id = {recipe_id}")
         CONNECTION.commit()
     elif back_email_or_delete.upper() == 'E':
-        email_recipe(display_text, active_user)
+        email_recipe(recipe_name, display_text, active_user)
+
 
 def create_user_recipe(active_user):
     ur = UserRecipe()
     ur.add_recipe_to_favorites(active_user, 'user')
 
-def email_recipe(display_text, active_user):
+
+def email_recipe(recipe_name, display_text, active_user):
+    from email.mime.application import MIMEApplication
+    from email.mime.base import MIMEBase
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+    from email import encoders
+    import docx
+    import os
+    # from docx import Document
+    # from docx.shared import Inches
+    document = docx.Document()
+    document.add_heading(recipe_name, 0)
+    document.add_paragraph(display_text)
+    document.save(f"{recipe_name}.docx")
+
     from passwords import gmail_pw
     SENDER = 'akivabuckman@gmail.com'
     RECEIVER = 'akivabuckman@yahoo.com'
+
+    msg = MIMEMultipart()
+    msg['From'] = SENDER
+    msg['To'] = RECEIVER
+    msg['Subject'] = recipe_name
+    body = f"{recipe_name} recipe attached."
+    msg.attach(MIMEText(body))
+    attachment = open(fr"C:\Users\akiva\Documents\Coding\DI\DI_Bootcamp\Hackathon1\{recipe_name}.docx", 'rb')
+    part = MIMEBase("application", "octet-stream")
+    part.set_payload(attachment.read())
+    encoders.encode_base64(part)
+    part.add_header("Content-Disposition",
+                    f"attachment; filename= {recipe_name}.docx")
+    msg.attach(part)
+
+    msg = msg.as_string()
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(SENDER, gmail_pw)
-        smtp.sendmail(SENDER, RECEIVER, msg=display_text)
-
+        smtp.sendmail(SENDER, RECEIVER, msg)
