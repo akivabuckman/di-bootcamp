@@ -14,28 +14,24 @@ class Recipe:
                        f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
                        f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
                        f"ILIKE '{active_user}';")
-        existing_faves = [i[0] for i in CURSOR.fetchall()]
-        if self.name in existing_faves:
-            if input_type == 'api':
-                print(f"A favorite named {self.name} already exists. Pick another action.")
-            elif input_type == 'user':
-                print(f"A favorite named {self.name} already exists. Use a different name.")
-                create_user_recipe(active_user)
-        else:
-            CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
-                           f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
-                           f"'{self.diet_code}');")
-            CONNECTION.commit()
-            CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
-                           f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
-                           f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
-                           f"(SELECT MAX(recipe_id) FROM favorites)))")
-            CONNECTION.commit()
-            print(f"\n{self.name} added to Favorites")
-
-    def email_recipe(self, active_user):
-        SENDER = 'akivabuckman@gmail.com'
-        RECEIVER = 'akivabuckman@gmail.com'
+        # existing_faves = [i[0] for i in CURSOR.fetchall()] # not needed. users can have duplicate favorite names.
+        # if self.name in existing_faves:
+        #     if input_type == 'api':
+        #         print(f"A favorite named {self.name} already exists. Pick another action.")
+        #     elif input_type == 'user':
+        #         print(f"A favorite named {self.name} already exists. Use a different name.")
+        #         create_user_recipe(active_user)
+        # else:
+        CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
+                       f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
+                       f"'{self.diet_code}');")
+        CONNECTION.commit()
+        CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
+                       f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
+                       f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
+                       f"(SELECT MAX(recipe_id) FROM favorites)))")
+        CONNECTION.commit()
+        print(f"\n{self.name} added to Favorites")
 
 
 class APIRecipe(Recipe):
@@ -186,17 +182,25 @@ def view_specific_favorite(active_user, view_choice):
     cook_time = fav_info[3]
     ingredients = fav_info[4]
     recipe_id = fav_info[5]
-    print(recipe_id)
-    print(f"\n{recipe_name}")
-    print(f"Cuisine: {cuisine.title()}")
-    print(f"Diet Type: {diet}")
-    print(f"Cook time: {cook_time} minutes")
     ingredients_print = ingredients.replace(', ', "\n")
-    print(f"\nIngredients:\n{ingredients_print}")
-    back_or_delete = input("(B)ack, or (D)elete this favorite? ")
-    if back_or_delete.upper() == 'D':
+    display_text = f"\n{recipe_name}\nCuisine: {cuisine.title()}\nDiet type: {diet}\nCook time: {cook_time} minutes\n" \
+                   f"\nIngredients:\n{ingredients_print}"
+    print(display_text)
+    back_email_or_delete = input("(B)ack, (E)mail favorite, or (D)elete this favorite? ")
+    if back_email_or_delete.upper() == 'D':
         CURSOR.execute(f"DELETE FROM favorites WHERE recipe_id = {recipe_id}")
         CONNECTION.commit()
+    elif back_email_or_delete.upper() == 'E':
+        email_recipe(display_text, active_user)
+
 def create_user_recipe(active_user):
     ur = UserRecipe()
     ur.add_recipe_to_favorites(active_user, 'user')
+
+def email_recipe(display_text, active_user):
+    SENDER = 'akivabuckman@gmail.com'
+    RECEIVER = 'akivabuckman@yahoo.com'
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(SENDER, 'sgszmnavexwhkdzi')
+        smtp.sendmail(SENDER, RECEIVER, msg=display_text)
+

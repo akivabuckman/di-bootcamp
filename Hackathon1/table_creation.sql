@@ -32,7 +32,7 @@
 -- 	user_id SERIAL PRIMARY KEY,
 -- 	username VARCHAR(50) NOT NULL UNIQUE,
 -- 	password VARCHAR(50) NOT NULL,
--- 	diet_code INTEGER,
+-- 	diet_code INTEGER DEFAULT 0,
 -- 	FOREIGN KEY (diet_code) REFERENCES diets(diet_code)
 -- );
 
@@ -40,13 +40,9 @@
 -- 	recipe_id INTEGER NOT NULL,
 -- 	user_id INTEGER NOT NULL,
 -- 	PRIMARY KEY (recipe_id, user_id),
--- 	FOREIGN KEY (recipe_id) REFERENCES favorites(recipe_id),
+-- 	FOREIGN KEY (recipe_id) REFERENCES favorites(recipe_id) ON DELETE CASCADE,
 -- 	FOREIGN KEY (user_id) REFERENCES users(user_id)
 -- );
 
 -- INSERT INTO diets(diet_code, diet_name) VALUES
 -- (0, 'None'), (1, 'Vegetarian'), (2, 'Vegan'), (3, 'Celiac');
-
--- INSERT INTO user_favorites(user_id, recipe_id) VALUES
--- ((SELECT user_id from users where username ILIKE 'evelyn'),
--- (select recipe_id from favorites where recipe_name ILIKE 'Mortadella Bolognese with Pistachio Gremolata'));
