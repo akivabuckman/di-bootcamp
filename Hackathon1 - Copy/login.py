@@ -21,66 +21,129 @@ class Login:
 
     @property
     def login(self):
-        login_window = tk.Tk()
-        login_window.title('Hello Python')
-        login_window.geometry("300x200+10+20")
-        login_window.mainloop()
-        given_user = input("Hey there!\nEnter Username: ")
-        if given_user.lower() not in self.usernames:
-            signup = input("That username doesn't exist. Sign up? Y or any key: ").lower()
-            if signup == 'y':
-                faker_choice = input("Should I generate random info for you? Y or any key: ").lower()
-                if faker_choice != 'y':
-                    valid_user = False
-                    while not valid_user:
-                        new_username = input("Enter new username: ")
-                        if new_username == '':
-                            print("That's blank!\n")
-                        else:
-                            valid_user = True
-                    valid_pw = False
-                    while not valid_pw:
-                        new_password = input("Enter new password: ")
-                        if new_password == '':
-                            print("That's blank!\n")
-                            continue
-                        else:
-                            valid_pw = True
-                    while True:
-                        new_diet_code = input("Enter diet code. 0: None, 1: Vegetarian, 2: Vegan, 3: Celiac ")
-                        if new_diet_code not in ['0', '1', '2', '3']:
-                            print("Choose 0, 1, 2, or 3!")
-                            continue
-                        else:
-                            break
-                    CURSOR.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
-                                        f"'{new_password}', '{new_diet_code}');")
-                    CONNECTION.commit()
-                    return new_username
-                else:
-                    new_username = self.fake.first_name() + str(random.randint(1,1000))
-                    CURSOR.execute("SELECT username FROM users")
-                    existing_names = [i[0] for i in CURSOR.fetchall()]
-                    if new_username in existing_names:
-                        new_username += str(random.randint(1,1000))
-                    new_password = ''.join(random.choice(string.ascii_letters + string.digits)
-                                           for _ in range(10))
-                    random_diet = int(random.choice("000000011223"))
-                    print(f"Your username is {new_username}, your password is {new_password}, your diet code is "
-                          f"{random_diet}.")
-                    CURSOR.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
-                                        f"'{new_password}', '{random_diet}');")
-                    CONNECTION.commit()
-                    return new_username
-            else:
-                self.login()
+        self.login_window = tk.Tk()
+        self.login_window.title('Recipe Manager')
+        self.login_window.geometry("300x200")
+        self.hey = tk.Label(self.login_window, text = "Hey There!")
+        self.hey.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
+        self.user_label = tk.Label(self.login_window, text = "Username:")
+        self.pw_label = tk.Label(self.login_window, text = "Password:")
+        self.user_entry = tk.Entry(self.login_window)
+        self.user_entry.focus()
+        self.pw_entry = tk.Entry(self.login_window)
+        self.user_label.grid(row=1, column=0, padx=10, pady=10)
+        self.pw_label.grid(row=2, column=0, padx=10, pady=10)
+        self.user_entry.grid(row=1, column=1, padx=10, pady=10)
+        self.pw_entry.grid(row=2, column=1, padx=10, pady=10)
+        self.login_button = tk.Button(text="Sign In", command=self.validate)
+        self.login_button.grid(row=3, column=0)
+        self.register_button = tk.Button(text="Register", command=self.register)
+        self.register_button.grid(row=3, column=1)
+        self.login_window.mainloop()
+    def register(self):
+        self.login_window.destroy()
+        self.register_window = tk.Tk()
+        self.register_window.title = "New User"
+        # self.register_window.geometry("300x100")
+        self.q = tk.Label(text="Enter your own info, or generate random info?", pady=10, padx=10)
+        self.own = tk.Button(text="My Info", command=self.user_info)
+        self.random = tk.Button(text="Random Info", command=self.random_info)
+        self.q.grid(row=0, column=0, columnspan=2)
+        self.own.grid(row=1, column=0)
+        self.random.grid(row=1, column=1)
+        self.register_window.mainloop()
+    def random_info(self):
+        pass
+    def user_info(self):
+        self.register_window.destroy()
+        print(1)
+        self.user_info_screen = tk.Tk()
+        self.user_info_screen.title = "Register New User"
+        self.new_username_label = tk.Label(text="New Username:")
+        self.new_pw_label = tk.Label(text="New Password:")
+        self.new_username_entry = tk.Entry(self.user_info_screen)
+        self.new_pw_entry = tk.Entry(self.user_info_screen)
+        self.new_username_label.grid(row=0, column=0, padx=5, pady=5)
+        self.new_pw_label.grid(row=1, column=0, padx=5, pady=5)
+        self.new_username_entry.grid(row=0, column=1, padx=5, pady=5)
+        self.new_pw_entry.grid(row=1, column=1, padx=5, pady=5)
+        self.register_button = tk.Button(text='Register and Log In', command=self.log_in)
+        self.register_button.grid(row=3, columnspan=2)
+        self.username_error = tk.Label(text='', fg='red')
+        self.username_error.grid(row=4, columnspan=2)
+        self.user_info_screen.mainloop()
+
+    def log_in(self):
+        submitted_username = self.new_username_entry.get()
+        submitted_pw = self.new_pw_entry.get()
+        CURSOR.execute("SELECT username from users;")
+        taken_usernames = [i[0].lower() for i in CURSOR.fetchall()]
+        if submitted_username.lower() in taken_usernames:
+            self.username_error.config(text="That username is taken. Choose another.")
+            self.user_info_screen.mainloop()
+        elif submitted_username == '':
+            self.username_error.config(text="Username can't be blank!")
         else:
-            while True:
-                given_password = input("Password: ")
-                CURSOR.execute(f"SELECT password FROM users WHERE username ILIKE '{given_user}'")
-                correct_password = CURSOR.fetchall()[0][0]
-                if correct_password == given_password:
-                    print(f"Welcome {given_user}, you're now logged in.")
-                    return given_user
-                else:
-                    print("Wrong password")
+            if submitted_pw == '':
+                self.username_error.config(text="Password can't be blank!")
+            else:
+                pass
+    #     valid_user = False
+        #     while not valid_user:
+        #         new_username = input("Enter new username: ")
+        #         if new_username == '':
+        #             print("That's blank!\n")
+        #         else:
+        #             valid_user = True
+        #     valid_pw = False
+        #     while not valid_pw:
+        #         new_password = input("Enter new password: ")
+        #         if new_password == '':
+        #             print("That's blank!\n")
+        #             continue
+        #         else:
+        #             valid_pw = True
+        #     while True:
+        #         new_diet_code = input("Enter diet code. 0: None, 1: Vegetarian, 2: Vegan, 3: Celiac ")
+        #         if new_diet_code not in ['0', '1', '2', '3']:
+        #             print("Choose 0, 1, 2, or 3!")
+        #             continue
+        #         else:
+        #             break
+        #     CURSOR.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
+        #                         f"'{new_password}', '{new_diet_code}');")
+        #     CONNECTION.commit()
+        #     return new_username
+        # # else:
+        #     new_username = self.fake.first_name() + str(random.randint(1,1000))
+        #     CURSOR.execute("SELECT username FROM users")
+        #     existing_names = [i[0] for i in CURSOR.fetchall()]
+        #     if new_username in existing_names:
+        #         new_username += str(random.randint(1,1000))
+        #     new_password = ''.join(random.choice(string.ascii_letters + string.digits)
+        #                            for _ in range(10))
+        #     random_diet = int(random.choice("000000011223"))
+        #     print(f"Your username is {new_username}, your password is {new_password}, your diet code is "
+        #           f"{random_diet}.")
+        #     CURSOR.execute(f"INSERT INTO users(username, password, diet_code) VALUES ('{new_username}', "
+        #                         f"'{new_password}', '{random_diet}');")
+        #     CONNECTION.commit()
+        #     return new_username
+    def validate(self):
+        given_user = self.user_entry.get()
+        if given_user.lower() not in self.usernames:
+            self.login_error = tk.Label(self.login_window, text="That username doesn't exist. Please Register",
+                                        fg="red")
+            self.login_error.grid(row=4, column=0, columnspan=2)
+        else:
+            given_password = self.pw_entry.get()
+            CURSOR.execute(f"SELECT password FROM users WHERE username ILIKE '{given_user}'")
+            correct_password = CURSOR.fetchall()[0][0]
+            if correct_password == given_password:
+                return given_user
+            else:
+                self.login_error.config(text="Password incorrect.")
+
+
+
+        self.login_window.mainloop()

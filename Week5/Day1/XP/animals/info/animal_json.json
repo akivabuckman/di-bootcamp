@@ -1,0 +1,71 @@
+{
+    "animals": [
+        {
+            "id" :1,
+            "name": "Dog",
+            "legs": 4,
+            "weight": 5.67,
+            "height":4.2,
+            "speed": 34,
+            "family": 2
+        },
+        {
+            "id": 2,
+            "name": "Domestic Cat",
+            "legs": 2,
+            "weight": 5.67,
+            "height":4.2,
+            "speed": 34,
+            "family": 1
+        },
+        {
+            "id": 3,
+            "name": "Panther",
+            "legs": 2,
+            "weight": 5.67,
+            "height":4.2,
+            "speed": 34,
+            "family": 1 
+        },
+        {
+            "id": 4,
+            "name": "Lion",
+            "legs": 4,
+            "weight": 9,
+            "height": 5,
+            "speed": 40,
+            "family":1
+        },
+        {
+            "id": 5,
+            "name": "spider",
+            "legs": 8,
+            "weight": 1,
+            "height": 1,
+            "speed": 1,
+            "family": 5
+        }
+    ],
+    "families": [
+        {
+            "id": 1,
+            "name": "Felidae"
+        },
+        {
+            "id": 2,
+            "name": "Caninae"
+        },
+        {
+            "id": 3,
+            "name": "Mammal"
+        },
+        {
+            "id": 4,
+            "name": "Reptile"
+        },
+        {
+            "id": 5,
+            "name": "Insect"
+        }
+    ]
+}
