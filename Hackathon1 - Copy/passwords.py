@@ -1,1 +1,1 @@
-gmail_pw = 'sgszmnavexwhkdzi'
+gmail_pw = ''
