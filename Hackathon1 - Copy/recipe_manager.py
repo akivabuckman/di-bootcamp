@@ -3,6 +3,7 @@ import psycopg2
 import smtplib
 import tkinter as tk
 import recipe_objects
+from passwords.passwords import gmail_pw
 
 CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='hackathon1')
 CURSOR = CONNECTION.cursor()
@@ -13,9 +14,8 @@ EDAMAM_KEY = 'b2450a48ca06718b544940eb54b7acc2'
 class RecipeManager:
     def run_choice(self, function, active_user):
         function(self, active_user)
+
     def get_search_parameters(self, active_user):
-        params = {}
-        valid_kw = False
         self.search_screen = tk.Tk()
         self.search_screen.title("Search for a Recipe")
         label1 = tk.Label(text="Enter search keywords:")
@@ -55,26 +55,27 @@ class RecipeManager:
 
     def search_recipe_api(self, params, active_user, previous_screen):
         URL = f"https://api.edamam.com/search?q={params['search_keywords']}&app_id={EDAMAM_ID}&app_key={EDAMAM_KEY}" \
-                      f"{params['diet']}{params['cuisine']}"
+              f"{params['diet']}{params['cuisine']}"
         self.search_results = requests.get(url=URL).json()['hits']
         self.titles = [i['recipe']['label'] for i in self.search_results]
         if len(self.titles) == 0:
             self.search_screen_error.config(text="No results. Change search.")
         else:
             self.display_api_results(active_user, params, previous_screen)
+
     def display_api_results(self, active_user, params, previous_screen):
-            previous_screen.destroy()
-            self.api_results_screen = tk.Tk()
-            self.api_results_screen.title("Search Results")
-            label1 = tk.Label(text=f"Results for {self.search_keywords.replace('+', ' ')}:")
-            label1.grid(row=0, column=0, columnspan=2, pady=5)
-            for count, value in enumerate(self.titles):
-                label = tk.Label(text=f"{count + 1}. {value}")
-                label.grid(row=count+1, column=0, padx=5, pady=5)
-                json_data = self.search_results[count]
-                self.create_api_recipe_button(count, active_user, json_data, params)
-            home_button = tk.Button(text="Back", command=lambda: self.return_now(self.api_results_screen))
-            home_button.grid(row=len(self.titles)+2, column=0, columnspan=2)
+        previous_screen.destroy()
+        self.api_results_screen = tk.Tk()
+        self.api_results_screen.title("Search Results")
+        label1 = tk.Label(text=f"Results for {self.search_keywords.replace('+', ' ')}:")
+        label1.grid(row=0, column=0, columnspan=2, pady=5)
+        for count, value in enumerate(self.titles):
+            label = tk.Label(text=f"{count + 1}. {value}")
+            label.grid(row=count + 1, column=0, padx=5, pady=5)
+            json_data = self.search_results[count]
+            self.create_api_recipe_button(count, active_user, json_data, params)
+        home_button = tk.Button(text="Back", command=lambda: self.return_now(self.api_results_screen))
+        home_button.grid(row=len(self.titles) + 2, column=0, columnspan=2)
 
     def return_now(self, current_screen):
         current_screen.destroy()
@@ -97,8 +98,8 @@ class RecipeManager:
         label2.grid(row=1, column=0)
         label3 = tk.Label(text=f"Diet Type: {diet_type}")
         label3.grid(row=2, column=0)
-        ingredients_display = apir.ingredients_string.replace(", ",'\n')
-        label4 = tk.Label(text = f"Ingredients:\n{ingredients_display}")
+        ingredients_display = apir.ingredients_string.replace(", ", '\n')
+        label4 = tk.Label(text=f"Ingredients:\n{ingredients_display}")
         label4.grid(row=3, column=0)
         add_to_favorites_button = tk.Button(text="Add to Favorites",
                                             command=lambda: apir.add_recipe_to_favorites(active_user,
@@ -111,6 +112,7 @@ class RecipeManager:
         back_to_results_button.grid(row=5, column=0, pady=5)
         back_home_button = tk.Button(text="Home", command=lambda: self.return_now(self.specific_api_screen))
         back_home_button.grid(row=6, column=0, pady=5)
+
     # def view_specific_api_recipe(recipe, params, active_user):
     #     CURSOR.execute(f"SELECT diet_name FROM diets WHERE diet_code = {recipe.diet_code}")  # converts API's diet info
     #     diet_type = CURSOR.fetchall()[0][0]
@@ -157,18 +159,22 @@ class RecipeManager:
     #                 print("Number must be 1-10!")
     #                 continue
 
-
     def view_favorites(self, active_user):
         CURSOR.execute(f"SELECT recipe_name FROM favorites "  # finds user's favorites' names
                        f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
                        f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
                        f"ILIKE '{active_user}';")
         recipe_response = [i[0] for i in CURSOR.fetchall()]
-        print(recipe_response)
-        favorite_list_screen = tk.Tk()
-        favorite_list_screen.title(f"{active_user}'s Favorites")
+        self.favorite_list_screen = tk.Tk()
+        self.favorite_list_screen.title(f"{active_user.title()}'s Favorites")
+        label = tk.Label(text=f"{active_user.title()}'s Favorites:")
+        label.grid(row=0, column=0, columnspan=2)
         for count, value in enumerate(recipe_response):
-            pass
+            label = tk.Label(text=f"{count + 1}. {value}")
+            label.grid(row=count + 1, column=0)
+            self.create_favorite_button(count=count, value=value, active_user=active_user, params=1)
+
+        self.favorite_list_screen.mainloop()
         #     print(f"{count + 1}.", value)
         # view_choice = input("Which recipe would you like to view? Or (B) to go back: ").lower()
         # if view_choice not in [str(int(i + 1)) for i in list(range(len(recipe_response)))] + ['b']:
@@ -181,36 +187,54 @@ class RecipeManager:
         #     print(chosen_favorite)
         #     view_specific_favorite(active_user, view_choice)
 
+    def create_favorite_button(self, count, value, active_user, params):
+        new_button = tk.Button(text="View Recipe",
+                               # command=lambda: self.view_specific_fav_recipe(json_data, active_user, params))
+                               command=lambda: self.view_specific_fav_recipe(active_user, count))
 
+        new_button.grid(row=1 + count, column=1, padx=5, pady=5)
 
+    def view_specific_fav_recipe(self, active_user, count):
+        CURSOR.execute(f"SELECT favorites.recipe_name, favorites.cuisine, favorites.diet_code, "
+                       f"favorites.cook_time,"
+                       f" favorites.ingredients, user_favorites.recipe_id FROM favorites "  # finds user's favorites
+                       f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
+                       f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
+                       f"ILIKE '{active_user}';")
+        fav_info = CURSOR.fetchall()[count]
+        recipe_name = fav_info[0]
+        cuisine = fav_info[1]
+        diet = fav_info[2]
+        cook_time = fav_info[3]
+        ingredients = fav_info[4]
+        recipe_id = fav_info[5]
+        ingredients_print = ingredients.replace(', ', "\n")
+        display_text = f"\n{recipe_name}\nCuisine: {cuisine.title()}\nDiet type: {diet}\nCook time: {cook_time} minutes\n" \
+                       f"\nIngredients:\n{ingredients_print}"
+        self.return_now(self.favorite_list_screen)
+        specific_fav_screen = tk.Tk()
+        specific_fav_screen.title(recipe_name)
+        label1 = tk.Label(text=recipe_name.title())
+        label1.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+        label2 = tk.Label(text=f"Cuisine: {cuisine}")
+        label2.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        label3 = tk.Label(text=f"Diet: {diet}")
+        label3.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
+        label4 = tk.Label(text=f"Cook Time: {cook_time} min")
+        label4.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
+        label5 = tk.Label(text="Ingredients:")
+        label5.grid(row=4, column=0, columnspan=2, pady=5, padx=5)
+        label6 = tk.Label(text=ingredients_print)
+        label6.grid(row=5, column=0, columnspan=2, pady=5, padx=5)
+        email_button = tk.Button(text="Email Recipe",
+                                 command=lambda: self.email_recipe(recipe_name, display_text, active_user))
+        email_button.grid(row=6, column=0, padx=5, pady=5)
+        delete_button = tk.Button(text="Unfavorite", command=lambda: self.unfavorite(recipe_id))
+        delete_button.grid(row=6, column=1, padx=5, pady=5)
 
-
-    # def view_specific_favorite(active_user, view_choice):
-    #     CURSOR.execute(f"SELECT favorites.recipe_name, favorites.cuisine, favorites.diet_code, "
-    #                    f"favorites.cook_time,"
-    #                    f" favorites.ingredients, user_favorites.recipe_id FROM favorites "  # finds user's favorites
-    #                    f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
-    #                    f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
-    #                    f"ILIKE '{active_user}';")
-    #     fav_info = CURSOR.fetchall()[int(view_choice) - 1]
-    #     recipe_name = fav_info[0]
-    #     cuisine = fav_info[1]
-    #     diet = fav_info[2]
-    #     cook_time = fav_info[3]
-    #     ingredients = fav_info[4]
-    #     recipe_id = fav_info[5]
-    #     ingredients_print = ingredients.replace(', ', "\n")
-    #     display_text = f"\n{recipe_name}\nCuisine: {cuisine.title()}\nDiet type: {diet}\nCook time: {cook_time} minutes\n" \
-    #                    f"\nIngredients:\n{ingredients_print}"
-    #     print(display_text)
-    #     back_email_or_delete = input("(B)ack, (E)mail favorite, or (D)elete this favorite? ")
-    #     if back_email_or_delete.upper() == 'D':
-    #         CURSOR.execute(f"DELETE FROM favorites WHERE recipe_id = {recipe_id}")
-    #         CONNECTION.commit()
-    #     elif back_email_or_delete.upper() == 'E':
-    #         email_recipe(recipe_name, display_text, active_user)
-
-
+    def unfavorite(self, recipe_id):
+        CURSOR.execute(f"DELETE FROM favorites WHERE recipe_id = {recipe_id}")
+        CONNECTION.commit()
     def create_user_recipe(self, active_user):
         ur = recipe_objects.UserRecipe(active_user)
 
@@ -218,41 +242,40 @@ class RecipeManager:
         apir = recipe_objects.APIRecipe(json_data)
         self.view_specific_api_recipe2(apir, json_data, active_user, params)
 
-    # def email_recipe(recipe_name, display_text, active_user):
-    #     from email.mime.application import MIMEApplication
-    #     from email.mime.base import MIMEBase
-    #     from email.mime.multipart import MIMEMultipart
-    #     from email.mime.text import MIMEText
-    #     from email import encoders
-    #     import docx
-    #     import os
-    #     # from docx import Document
-    #     # from docx.shared import Inches
-    #     document = docx.Document()
-    #     document.add_heading(recipe_name, 0)
-    #     document.add_paragraph(display_text)
-    #     document.save(f"saved_files/{recipe_name}.docx")
+    def email_recipe(self, recipe_name, display_text, active_user):
+        from email.mime.application import MIMEApplication
+        from email.mime.base import MIMEBase
+        from email.mime.multipart import MIMEMultipart
+        from email.mime.text import MIMEText
+        from email import encoders
+        import docx
+        import os
+        # from docx import Document
+        # from docx.shared import Inches
+        document = docx.Document()
+        document.add_heading(recipe_name, 0)
+        document.add_paragraph(display_text)
+        document.save(f"saved_files/{recipe_name}.docx")
 
-        # from passwords import gmail_pw
-        # SENDER = 'akivabuckman@gmail.com'
-        # RECEIVER = 'akivabuckman@yahoo.com'
-        #
-        # msg = MIMEMultipart()
-        # msg['From'] = SENDER
-        # msg['To'] = RECEIVER
-        # msg['Subject'] = recipe_name
-        # body = f"Hey {active_user},\n{recipe_name} recipe attached."
-        # msg.attach(MIMEText(body))
-        # attachment = open(fr"C:\Users\akiva\Documents\Coding\DI\DI_Bootcamp\Hackathon1\saved_files\{recipe_name}.docx",
-        #                   'rb')
-        # part = MIMEBase("application", "octet-stream")
-        # part.set_payload(attachment.read())
-        # encoders.encode_base64(part)
-        # part.add_header("Content-Disposition",
-        #                 f"attachment; filename= {recipe_name}.docx")
-        # msg.attach(part)
-        #
-        # msg = msg.as_string()
-        # with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        #     smtp.login(SENDER, gmail_pw)
-        #     smtp.sendmail(SENDER, RECEIVER, msg)
+        SENDER = 'akivabuckman@gmail.com'
+        RECEIVER = 'akivabuckman@yahoo.com'
+
+        msg = MIMEMultipart()
+        msg['From'] = SENDER
+        msg['To'] = RECEIVER
+        msg['Subject'] = recipe_name
+        body = f"Hey {active_user},\n{recipe_name} recipe attached."
+        msg.attach(MIMEText(body))
+        attachment = open(
+            fr"C:\Users\akiva\Documents\Coding\DI\DI_Bootcamp\Hackathon1 - Copy\saved_files\{recipe_name}.docx", 'rb')
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(attachment.read())
+        encoders.encode_base64(part)
+        part.add_header("Content-Disposition",
+                        f"attachment; filename= {recipe_name}.docx")
+        msg.attach(part)
+
+        msg = msg.as_string()
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(SENDER, gmail_pw)
+            smtp.sendmail(SENDER, RECEIVER, msg)

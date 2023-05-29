@@ -9,23 +9,6 @@ EDAMAM_ID = '7c239491'
 EDAMAM_KEY = 'b2450a48ca06718b544940eb54b7acc2'
 
 class Recipe:
-    # def add_recipe_to_favorites(self, active_user, specific_api_screen, add_button):
-    #     CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
-    #                    f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
-    #                    f"'{self.diet_code}');")
-    #     CONNECTION.commit()
-    #     CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
-    #                    f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
-    #                    f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
-    #                    f"(SELECT MAX(recipe_id) FROM favorites)))")
-    #     CONNECTION.commit()
-    #     fav_added_label = tk.Label(specific_api_screen, text="Added to Favorites", fg='blue')
-    #     fav_added_label.grid(row=7, column=0)
-    #     try:
-    #         add_button.destroy()
-    #     except:
-    #         pass
-
     def return_now(self, current_screen):
         current_screen.destroy()
 
