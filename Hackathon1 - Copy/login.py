@@ -48,10 +48,9 @@ class Login:
         self.login_window.destroy()
         self.register_window = tk.Tk()
         self.register_window.title("New User")
-        # self.register_window.geometry("300x100")
         self.q = tk.Label(text="Enter your own info, or generate random info?", pady=10, padx=10)
-        self.own = tk.Button(text="My Info", command=self.user_info)
-        self.random = tk.Button(text="Random Info", command=self.random_info)
+        self.own = tk.Button(text="My Info", command=self.user_info, pady=5)
+        self.random = tk.Button(text="Random Info", command=self.random_info, pady=5)
         self.q.grid(row=0, column=0, columnspan=2)
         self.own.grid(row=1, column=0)
         self.random.grid(row=1, column=1)
@@ -130,8 +129,9 @@ class Login:
             given_password = self.pw_entry.get()
             CURSOR.execute(f"SELECT password FROM users WHERE username ILIKE '{given_user}'")
             correct_password = CURSOR.fetchall()[0][0]
-            if correct_password == given_password:
-                return given_user
+            if correct_password == given_password:  # if all good
+                self.login_window.destroy()
+                self.chosen_username = given_user
             else:
                 self.login_error.config(text="Password incorrect.")
 

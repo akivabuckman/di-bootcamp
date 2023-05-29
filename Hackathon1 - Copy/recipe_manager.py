@@ -20,6 +20,7 @@ class RecipeManager:
         self.search_screen.title("Search for a Recipe")
         label1 = tk.Label(text="Enter search keywords:")
         label1.grid(row=0, column=0, padx=5, pady=5)
+        label1.focus()
         self.keyword_entry = tk.Entry(self.search_screen)
         self.keyword_entry.grid(row=0, column=1, padx=5, pady=5)
         label2 = tk.Label(text="Cuisine:")
@@ -31,7 +32,9 @@ class RecipeManager:
         self.diet_entry = tk.Entry(self.search_screen)
         self.diet_entry.grid(row=2, column=1, padx=5, pady=5)
         search_button = tk.Button(text="Search", command=lambda: self.validate_and_search(active_user))
-        search_button.grid(row=3, column=0, columnspan=2)
+        search_button.grid(row=3, column=0)
+        back_button = tk.Button(text="Home", command=lambda: self.return_now(self.search_screen))
+        back_button.grid(row=3, column=1)
         self.search_screen.mainloop()
 
     def validate_and_search(self, active_user):
@@ -48,9 +51,9 @@ class RecipeManager:
             params['search_keywords'] = self.search_keywords
             params['diet'] = diet
             params['cuisine'] = cuisine
-            self.search_recipe_api(params, active_user)
+            self.search_recipe_api(params, active_user, self.search_screen)
 
-    def search_recipe_api(self, params, active_user):
+    def search_recipe_api(self, params, active_user, previous_screen):
         URL = f"https://api.edamam.com/search?q={params['search_keywords']}&app_id={EDAMAM_ID}&app_key={EDAMAM_KEY}" \
                       f"{params['diet']}{params['cuisine']}"
         self.search_results = requests.get(url=URL).json()['hits']
@@ -58,30 +61,56 @@ class RecipeManager:
         if len(self.titles) == 0:
             self.search_screen_error.config(text="No results. Change search.")
         else:
-            self.display_api_results(active_user)
-    def display_api_results(self, active_user):
-            self.search_screen.destroy()
-            api_results_screen = tk.Tk()
-            api_results_screen.title("Search Results")
-            label1 = tk.Label(api_results_screen, text=f"Results for {self.search_keywords.replace('+', ' ')}:")
+            self.display_api_results(active_user, params, previous_screen)
+    def display_api_results(self, active_user, params, previous_screen):
+            previous_screen.destroy()
+            self.api_results_screen = tk.Tk()
+            self.api_results_screen.title("Search Results")
+            label1 = tk.Label(text=f"Results for {self.search_keywords.replace('+', ' ')}:")
             label1.grid(row=0, column=0, columnspan=2, pady=5)
             for count, value in enumerate(self.titles):
                 label = tk.Label(text=f"{count + 1}. {value}")
                 label.grid(row=count+1, column=0, padx=5, pady=5)
                 json_data = self.search_results[count]
-                self.create_api_recipe_button(count, active_user, json_data)
-                # view_recipe_button = tk.Button(text="View Recipe",
-                #                                command=lambda: self.create_api_recipe(active_user, json_data))
-                # view_recipe_button.grid(row=count+1, column=1, padx=5, pady=5)
+                self.create_api_recipe_button(count, active_user, json_data, params)
+            home_button = tk.Button(text="Back", command=lambda: self.return_now(self.api_results_screen))
+            home_button.grid(row=len(self.titles)+2, column=0, columnspan=2)
 
-    def create_api_recipe_button(self, count, active_user, json_data):
-        new_button = tk.Button(text="View Recipe", command=lambda: self.create_api_recipe(active_user, json_data))
+    def return_now(self, current_screen):
+        current_screen.destroy()
+
+    def create_api_recipe_button(self, count, active_user, json_data, params):
+        new_button = tk.Button(text="View Recipe",
+                               command=lambda: self.view_specific_api_recipe2(json_data, active_user, params))
         new_button.grid(row=1 + count, column=1, padx=5, pady=5)
 
-    def view_specific_api_recipe2(self, recipe, json_data, active_user):
-        CURSOR.execute(f"SELECT diet_name FROM diets WHERE diet_code = {recipe.diet_code}")
+    def view_specific_api_recipe2(self, json_data, active_user, params):
+        apir = recipe_objects.APIRecipe(json_data)
+        CURSOR.execute(f"SELECT diet_name FROM diets WHERE diet_code = {apir.diet_code}")
         diet_type = CURSOR.fetchall()[0][0]
-        print(recipe.name)
+        self.api_results_screen.destroy()
+        self.specific_api_screen = tk.Tk()
+        self.specific_api_screen.title(apir.name)
+        label1 = tk.Label(text=apir.name)
+        label1.grid(row=0, column=0)
+        label2 = tk.Label(text=f"Cuisine: {apir.cuisine}")
+        label2.grid(row=1, column=0)
+        label3 = tk.Label(text=f"Diet Type: {diet_type}")
+        label3.grid(row=2, column=0)
+        ingredients_display = apir.ingredients_string.replace(", ",'\n')
+        label4 = tk.Label(text = f"Ingredients:\n{ingredients_display}")
+        label4.grid(row=3, column=0)
+        add_to_favorites_button = tk.Button(text="Add to Favorites",
+                                            command=lambda: apir.add_recipe_to_favorites(active_user,
+                                                                                         self.specific_api_screen,
+                                                                                         add_to_favorites_button))
+        add_to_favorites_button.grid(row=4, column=0, pady=5)
+        back_to_results_button = tk.Button(text="Back to Results",
+                                           command=lambda: self.search_recipe_api(params, active_user,
+                                                                                  self.specific_api_screen))
+        back_to_results_button.grid(row=5, column=0, pady=5)
+        back_home_button = tk.Button(text="Home", command=lambda: self.return_now(self.specific_api_screen))
+        back_home_button.grid(row=6, column=0, pady=5)
     # def view_specific_api_recipe(recipe, params, active_user):
     #     CURSOR.execute(f"SELECT diet_name FROM diets WHERE diet_code = {recipe.diet_code}")  # converts API's diet info
     #     diet_type = CURSOR.fetchall()[0][0]
@@ -129,16 +158,17 @@ class RecipeManager:
     #                 continue
 
 
-    def view_favorites(active_user):
-        pass
-        # CURSOR.execute(f"SELECT recipe_name FROM favorites "  # finds user's favorites' names
-        #                f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
-        #                f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
-        #                f"ILIKE '{active_user}';")
-        # recipe_response = [i[0] for i in CURSOR.fetchall()]
-        # enum = enumerate(recipe_response)
-        # print("\nFavorites:")
-        # for count, value in enum:
+    def view_favorites(self, active_user):
+        CURSOR.execute(f"SELECT recipe_name FROM favorites "  # finds user's favorites' names
+                       f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
+                       f"INNER JOIN users ON user_favorites.user_id = users.user_id AND users.username "
+                       f"ILIKE '{active_user}';")
+        recipe_response = [i[0] for i in CURSOR.fetchall()]
+        print(recipe_response)
+        favorite_list_screen = tk.Tk()
+        favorite_list_screen.title(f"{active_user}'s Favorites")
+        for count, value in enumerate(recipe_response):
+            pass
         #     print(f"{count + 1}.", value)
         # view_choice = input("Which recipe would you like to view? Or (B) to go back: ").lower()
         # if view_choice not in [str(int(i + 1)) for i in list(range(len(recipe_response)))] + ['b']:
@@ -181,13 +211,12 @@ class RecipeManager:
     #         email_recipe(recipe_name, display_text, active_user)
 
 
-    def create_user_recipe(active_user):
-        ur = recipe_objects.UserRecipe()
-        ur.add_recipe_to_favorites(active_user, 'user')
+    def create_user_recipe(self, active_user):
+        ur = recipe_objects.UserRecipe(active_user)
 
-    def create_api_recipe(self, active_user, json_data):
+    def create_api_recipe(self, active_user, json_data, params):
         apir = recipe_objects.APIRecipe(json_data)
-        self.view_specific_api_recipe2(apir, json_data, active_user)
+        self.view_specific_api_recipe2(apir, json_data, active_user, params)
 
     # def email_recipe(recipe_name, display_text, active_user):
     #     from email.mime.application import MIMEApplication
