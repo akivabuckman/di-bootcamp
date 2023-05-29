@@ -1,7 +1,6 @@
-import faker
 from login import Login
 from menu import Menu
-import tkinter as tk
+import recipe_manager
 
 
 def main():
@@ -12,5 +11,6 @@ def main():
             if menu_choice == 'logout':
                 break
             else:
-                menu_choice(active_user) # runs the function the user chose in previous line
+                manager = recipe_manager.RecipeManager()
+                manager.run_choice(menu_choice, active_user) # runs the function the user chose in previous line
 main()
