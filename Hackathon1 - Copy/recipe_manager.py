@@ -46,7 +46,7 @@ class RecipeManager:
             self.search_screen_error.config(text="Keywords can't be empty!")
         else:
             cuisine = f"&cuisineType={self.cuisine_entry.get()}" if self.cuisine_entry.get() != '' else ''
-            diet = f"&cuisineType={self.diet_entry.get()}" if self.diet_entry.get() != '' else ''
+            diet = f"&dietType={self.diet_entry.get()}" if self.diet_entry.get() != '' else ''
             params = {}
             params['search_keywords'] = self.search_keywords
             params['diet'] = diet
@@ -175,17 +175,6 @@ class RecipeManager:
             self.create_favorite_button(count=count, value=value, active_user=active_user, params=1)
 
         self.favorite_list_screen.mainloop()
-        #     print(f"{count + 1}.", value)
-        # view_choice = input("Which recipe would you like to view? Or (B) to go back: ").lower()
-        # if view_choice not in [str(int(i + 1)) for i in list(range(len(recipe_response)))] + ['b']:
-        #     print("\nChoose a relevant number or (B)!")
-        #     view_favorites(active_user)
-        # elif view_choice == 'b':
-        #     return
-        # else:
-        #     chosen_favorite = recipe_response[int(view_choice) - 1]
-        #     print(chosen_favorite)
-        #     view_specific_favorite(active_user, view_choice)
 
     def create_favorite_button(self, count, value, active_user, params):
         new_button = tk.Button(text="View Recipe",
@@ -204,12 +193,14 @@ class RecipeManager:
         fav_info = CURSOR.fetchall()[count]
         recipe_name = fav_info[0]
         cuisine = fav_info[1]
-        diet = fav_info[2]
+        diet_code = fav_info[2]
+        CURSOR.execute(f"SELECT diet_name FROM diets WHERE diet_code = {diet_code}")
+        diet_type = CURSOR.fetchall()[0][0]
         cook_time = fav_info[3]
         ingredients = fav_info[4]
         recipe_id = fav_info[5]
         ingredients_print = ingredients.replace(', ', "\n")
-        display_text = f"\n{recipe_name}\nCuisine: {cuisine.title()}\nDiet type: {diet}\nCook time: {cook_time} minutes\n" \
+        display_text = f"\n{recipe_name}\nCuisine: {cuisine.title()}\nDiet type: {diet_type}\nCook time: {cook_time} minutes\n" \
                        f"\nIngredients:\n{ingredients_print}"
         self.return_now(self.favorite_list_screen)
         specific_fav_screen = tk.Tk()
@@ -218,7 +209,7 @@ class RecipeManager:
         label1.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
         label2 = tk.Label(text=f"Cuisine: {cuisine}")
         label2.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-        label3 = tk.Label(text=f"Diet: {diet}")
+        label3 = tk.Label(text=f"Diet: {diet_type}")
         label3.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
         label4 = tk.Label(text=f"Cook Time: {cook_time} min")
         label4.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
