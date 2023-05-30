@@ -10,12 +10,6 @@ CURSOR = CONNECTION.cursor()
 
 class Login:
     def __init__(self):
-        HOSTNAME = 'localhost'
-        USERNAME = 'postgres'
-        PASSWORD = '1234'
-        DATABASE = 'hackathon1'
-        # CONNECTION = psycopg2.connect(host=HOSTNAME, user=USERNAME, password=PASSWORD, dbname=DATABASE)
-        CURSOR = CONNECTION.cursor()
         CURSOR.execute("SELECT * FROM users")
         user_db = CURSOR.fetchall()
         self.usernames = [i[1].lower() for i in user_db]

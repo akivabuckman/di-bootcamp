@@ -5,8 +5,8 @@ import tkinter as tk
 class Menu:
     def display_menu(self, active_user):
         self.menu_screen = tk.Tk()
-        self.menu_screen.title(f"Welcome {active_user}")
-        label1 = tk.Label(text=f"Hey {active_user}, what would you like to do?")
+        self.menu_screen.title(f"Welcome {active_user.title()}")
+        label1 = tk.Label(text=f"Hey {active_user.title()}, what would you like to do?")
         add_button = tk.Button(text="Add New Recipe", command=lambda: self.return_func('a'))
         search_button = tk.Button(text="Search Recipe Database", command=lambda: self.return_func('s'))
         view_button = tk.Button(text="View Favorite Recipes", command=lambda: self.return_func('v'))

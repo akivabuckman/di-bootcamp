@@ -2,15 +2,27 @@ import psycopg2
 import tkinter as tk
 import passwords.passwords as pw
 
-
 CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='hackathon1')
 CURSOR = CONNECTION.cursor()
 EDAMAM_ID = pw.EDAMAM_ID
 EDAMAM_KEY = pw.EDAMAM_ID
 
+
 class Recipe:
     def return_now(self, current_screen):
         current_screen.destroy()
+
+    def add_to_db(self, active_user):
+        CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
+                       f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
+                       f"'{self.diet_code}');")
+        CONNECTION.commit()
+        CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
+                       f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
+                       f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
+                       f"(SELECT MAX(recipe_id) FROM favorites)))")
+        CONNECTION.commit()
+
 
 class APIRecipe(Recipe):
     def __init__(self, json_data):
@@ -24,15 +36,7 @@ class APIRecipe(Recipe):
                 1 if 'Vegetarian' in json_data['recipe']['healthLabels'] else 0
 
     def add_recipe_to_favorites(self, active_user, specific_api_screen, add_button):
-        CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
-                       f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
-                       f"'{self.diet_code}');")
-        CONNECTION.commit()
-        CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
-                       f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
-                       f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
-                       f"(SELECT MAX(recipe_id) FROM favorites)))")
-        CONNECTION.commit()
+        self.add_to_db(active_user)
         fav_added_label = tk.Label(specific_api_screen, text="Added to Favorites", fg='blue')
         fav_added_label.grid(row=7, column=0)
         try:
@@ -91,15 +95,8 @@ class UserRecipe(Recipe):
             self.ingredients = self.ingredients_entry.get().split(',')
             self.ingredients = [i.strip() for i in self.ingredients]
             self.ingredients_string = ', '.join(self.ingredients).replace("'", "")
-            self.add_recipe_to_favorites(active_user, self.user_recipe_screen)
+            self.add_recipe_to_favorites(active_user)
             self.user_recipe_screen.destroy()
-    def add_recipe_to_favorites(self, active_user, specific_api_screen):
-        CURSOR.execute(f"INSERT INTO favorites(recipe_name, ingredients, cook_time, cuisine, diet_code) VALUES"
-                       f"('{self.name}', '{self.ingredients_string}', '{self.cook_time}', '{self.cuisine}', "
-                       f"'{self.diet_code}');")
-        CONNECTION.commit()
-        CURSOR.execute(f"INSERT INTO user_favorites(user_id, recipe_id) VALUES"
-                       f"((SELECT user_id FROM users WHERE username ILIKE '{active_user}'),"
-                       f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
-                       f"(SELECT MAX(recipe_id) FROM favorites)))")
-        CONNECTION.commit()
+
+    def add_recipe_to_favorites(self, active_user):
+        self.add_to_db(active_user)

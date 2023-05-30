@@ -20,6 +20,9 @@ class RecipeManager:
     def run_choice(self, function, active_user):
         function(self, active_user)
 
+    def return_now(self, current_screen):
+        current_screen.destroy()
+
     def get_search_parameters(self, active_user):
         self.search_screen = tk.Tk()
         self.search_screen.title("Search for a Recipe")
@@ -36,13 +39,13 @@ class RecipeManager:
         label3.grid(row=2, column=0)
         self.diet_entry = tk.Entry(self.search_screen)
         self.diet_entry.grid(row=2, column=1, padx=5, pady=5)
-        search_button = tk.Button(text="Search", command=lambda: self.validate_and_search(active_user))
+        search_button = tk.Button(text="Search", command=lambda: self.validate_search_parameters(active_user))
         search_button.grid(row=3, column=0)
         back_button = tk.Button(text="Home", command=lambda: self.return_now(self.search_screen))
         back_button.grid(row=3, column=1)
         self.search_screen.mainloop()
 
-    def validate_and_search(self, active_user):
+    def validate_search_parameters(self, active_user):
         self.search_keywords = ',+'.join(self.keyword_entry.get().split())
         self.search_screen_error = tk.Label(text="", fg='red')
         self.search_screen_error.grid(row=4, column=0, columnspan=2)
@@ -81,9 +84,6 @@ class RecipeManager:
             self.create_api_recipe_button(count, active_user, json_data, params)
         home_button = tk.Button(text="Back", command=lambda: self.return_now(self.api_results_screen))
         home_button.grid(row=len(self.titles) + 2, column=0, columnspan=2)
-
-    def return_now(self, current_screen):
-        current_screen.destroy()
 
     def create_api_recipe_button(self, count, active_user, json_data, params):
         new_button = tk.Button(text="View Recipe",
