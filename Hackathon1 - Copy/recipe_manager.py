@@ -3,12 +3,17 @@ import psycopg2
 import smtplib
 import tkinter as tk
 import recipe_objects
-from passwords.passwords import gmail_pw
+import passwords.passwords as pw
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email import encoders
+import docx
 
 CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='hackathon1')
 CURSOR = CONNECTION.cursor()
-EDAMAM_ID = '7c239491'
-EDAMAM_KEY = 'b2450a48ca06718b544940eb54b7acc2'
+EDAMAM_ID = pw.EDAMAM_ID
+EDAMAM_KEY = pw.EDAMAM_KEY
 
 
 class RecipeManager:
@@ -113,52 +118,6 @@ class RecipeManager:
         back_home_button = tk.Button(text="Home", command=lambda: self.return_now(self.specific_api_screen))
         back_home_button.grid(row=6, column=0, pady=5)
 
-    # def view_specific_api_recipe(recipe, params, active_user):
-    #     CURSOR.execute(f"SELECT diet_name FROM diets WHERE diet_code = {recipe.diet_code}")  # converts API's diet info
-    #     diet_type = CURSOR.fetchall()[0][0]
-    #     print(f"\n{recipe.name}")
-    #     print(f"Cuisine: {recipe.cuisine.title()}")
-    #     print(f"Diet Type: {diet_type}")
-    #     ingredients_print = recipe.ingredients_string.replace('\n', ", ")
-    #     print(f"\nIngredients:\n{ingredients_print}")
-    #     while True:
-    #         recipe_view_choice = input("\nWhat would you like to do?\n(A)dd to favorites\n"
-    #                                    "Back to search (R)esults\n(H)ome: ")
-    #         if recipe_view_choice.lower() == 'a':
-    #             recipe.add_recipe_to_favorites(active_user, 'api')
-    #         elif recipe_view_choice.lower() == 'r':
-    #             search_all_recipes(params, active_user)
-    #         elif recipe_view_choice.lower() == 'h':
-    #             break
-
-    # def search_all_recipes(params, active_user):
-    #     URL = f"https://api.edamam.com/search?q={params['search_keywords']}&app_id={EDAMAM_ID}&app_key={EDAMAM_KEY}" \
-    #           f"{params['diet']}{params['cuisine']}"
-    #     search_results = requests.get(url=URL).json()['hits']
-    #     titles = [i['recipe']['label'] for i in search_results]
-    #     print(titles)
-    #     if len(titles) == 0:
-    #         print("No results. Search again.")
-    #         get_search_parameters(active_user)
-    #     enum = enumerate(titles)
-    #     for count, value in enum:
-    #         print(f"{count + 1}.", value)
-    #     while True:
-    #         view_choice = input("Which # recipe would you like to view? (1-10): ")
-    #         try:
-    #             view_choice = int(view_choice)
-    #         except ValueError:
-    #             print("Pick a number!")
-    #             continue
-    #         else:
-    #             if 1 <= view_choice <= 10:
-    #                 a = APIRecipe(search_results[view_choice - 1])
-    #                 view_specific_api_recipe(a, params, active_user)
-    #                 return
-    #             else:
-    #                 print("Number must be 1-10!")
-    #                 continue
-
     def view_favorites(self, active_user):
         CURSOR.execute(f"SELECT recipe_name FROM favorites "  # finds user's favorites' names
                        f"INNER JOIN user_favorites ON user_favorites.recipe_id = favorites.recipe_id "
@@ -234,22 +193,13 @@ class RecipeManager:
         self.view_specific_api_recipe2(apir, json_data, active_user, params)
 
     def email_recipe(self, recipe_name, display_text, active_user):
-        from email.mime.application import MIMEApplication
-        from email.mime.base import MIMEBase
-        from email.mime.multipart import MIMEMultipart
-        from email.mime.text import MIMEText
-        from email import encoders
-        import docx
-        import os
-        # from docx import Document
-        # from docx.shared import Inches
         document = docx.Document()
         document.add_heading(recipe_name, 0)
         document.add_paragraph(display_text)
         document.save(f"saved_files/{recipe_name}.docx")
 
-        SENDER = 'akivabuckman@gmail.com'
-        RECEIVER = 'akivabuckman@yahoo.com'
+        SENDER = pw.gmail_user
+        RECEIVER = pw.gmail_user
 
         msg = MIMEMultipart()
         msg['From'] = SENDER
@@ -268,5 +218,5 @@ class RecipeManager:
 
         msg = msg.as_string()
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-            smtp.login(SENDER, gmail_pw)
+            smtp.login(SENDER, pw.gmail_pw)
             smtp.sendmail(SENDER, RECEIVER, msg)

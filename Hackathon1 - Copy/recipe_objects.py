@@ -1,12 +1,12 @@
-import requests
 import psycopg2
-import smtplib
 import tkinter as tk
+import passwords.passwords as pw
+
 
 CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='hackathon1')
 CURSOR = CONNECTION.cursor()
-EDAMAM_ID = '7c239491'
-EDAMAM_KEY = 'b2450a48ca06718b544940eb54b7acc2'
+EDAMAM_ID = pw.EDAMAM_ID
+EDAMAM_KEY = pw.EDAMAM_ID
 
 class Recipe:
     def return_now(self, current_screen):
@@ -63,7 +63,7 @@ class UserRecipe(Recipe):
         label35 = tk.Label(text="Diet Code. 0: None, 1: Vegetarian")
         label35.grid(row=4, column=0, columnspan=2)
         label36 = tk.Label(text="2: Vegan, 3: Celiac:")
-        label35.grid(row=5, column=0, columnspan=2)
+        label36.grid(row=5, column=0, columnspan=2)
         self.diet_entry = tk.Entry()
         self.diet_entry.grid(row=6, column=0, columnspan=2)
         label4 = tk.Label(text="Enter ingredients separated by commas:")
@@ -103,32 +103,3 @@ class UserRecipe(Recipe):
                        f"(SELECT recipe_id FROM favorites WHERE recipe_id = "
                        f"(SELECT MAX(recipe_id) FROM favorites)))")
         CONNECTION.commit()
-        # # input of new recipe details
-        # self.name = input("\nRecipe Name: ").replace("'", '').title()
-        # while True:
-        #     self.cook_time = input("Cook time [min]: ")
-        #     try:
-        #         self.cook_time = int(self.cook_time)
-        #     except ValueError:
-        #         print("Enter an integer!")
-        #         continue
-        #     else:
-        #         break
-        # self.cuisine = input("Cuisine: ").replace("'", "")
-        # while True:
-        #     self.diet_code = input("Enter diet code. 0: None, 1: Vegetarian, 2: Vegan, 3: Celiac ")
-        #     if self.diet_code not in ['0', '1', '2', '3']:
-        #         print("Choose 0, 1, 2, or 3!")
-        #         continue
-        #     else:
-        #         break
-        # # ingredient entry:
-        # self.ingredients = []
-        # done = False
-        # while not done:
-        #     ingredient = input("Enter ingredient. Type 'done' when you're done: ")
-        #     if ingredient.lower() == 'done':
-        #         break
-        #     else:
-        #         self.ingredients.append(ingredient)
-        # self.ingredients_string = ', '.join(self.ingredients).replace("'", "")
