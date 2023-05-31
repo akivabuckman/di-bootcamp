@@ -7,8 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    We didnt learn forms yet!
-    <a href="/homepage">Back to Home</a>
+    <h1>add category</h1>
+    <form method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button type="submit"> submit </button>
+    </form>
+
     
 </body>
 </html>

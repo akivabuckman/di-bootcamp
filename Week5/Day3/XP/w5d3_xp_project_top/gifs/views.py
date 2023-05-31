@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from gifs.models import Gif, Category
+from .models import Gif, Category
 import psycopg2
+from .forms import CategoryForm
 
 def homepage(request):
     all_gifs = Gif.objects.all()
@@ -56,3 +57,15 @@ def gif(request, gif_id):
         'datetime': result.created_at,
     }
     return render(request,'gif.html', context)
+
+from .forms import CategoryForm
+def add_category_view(request):
+    if request.method == 'POST':
+        data = request.POST
+        filled_form = CategoryForm(data)
+        filled_form.save()
+
+    elif request.method == 'GET':
+        category_form = CategoryForm()
+        context = {'form': category_form}
+        return render(request, 'add_category.html', context)
