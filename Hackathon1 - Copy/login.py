@@ -9,6 +9,7 @@ CURSOR = CONNECTION.cursor()
 
 
 class Login:
+    # Gets existing usernames to assure no doubles
     def __init__(self):
         CURSOR.execute("SELECT * FROM users")
         user_db = CURSOR.fetchall()
@@ -17,6 +18,7 @@ class Login:
 
     @property
     def login(self):
+        # Login Window
         self.login_window = tk.Tk()
         self.login_window.title('Recipe Manager')
         self.login_window.geometry("300x200")
