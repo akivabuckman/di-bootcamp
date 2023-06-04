@@ -102,7 +102,6 @@ def create_vehicles(number: int):
         )
         vehicle.save()
 
-
 def create_rentals(number):
     for _ in range(number):
         print(_)
@@ -154,5 +153,5 @@ def create_rentals(number):
             )
             rental.save()
 
-# create_rentals(5000)
+# create_rentals(500)
 
