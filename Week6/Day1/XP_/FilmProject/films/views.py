@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from .forms import FilmForm, DirectorForm
+from .forms import FilmForm, DirectorForm, ReviewForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
@@ -39,3 +39,10 @@ class HomePageView(ListView):
             posts_all = Film.objects.all()
 
         return posts_all # return what will be used as the post_list
+    
+class ReviewCreateView(CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'review/addReview.html'
+    context_object_name = 'review'
+    success_url = reverse_lazy('review')

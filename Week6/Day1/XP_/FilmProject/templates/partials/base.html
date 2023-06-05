@@ -1,0 +1,29 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+</head>
+<body>
+
+    <div id="navcontainer">
+        <ul id="navlist">
+        <li id="active"><a href="#" id="current">Home</a></li>
+        <li><a href="#">Posts</a></li>
+        <li><a href="#">Add category</a></li>
+        <li><a href="#">Add post</a></li>
+        <li><a href="#">Profile</a></li>
+        </ul>
+    </div>
+
+    {% block content%}
+
+    {% endblock  %}
+
+
+</body>

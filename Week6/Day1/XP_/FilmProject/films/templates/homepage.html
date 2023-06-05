@@ -10,7 +10,7 @@
     <h1>Films</h1>
     <ul>
         {% for film in homepage %}
-          <li>{{ film.title }}</li>
+          <li>{{ film.title }} {{film.director}}</li>
         {% endfor %}
     </ul>
 </body>
