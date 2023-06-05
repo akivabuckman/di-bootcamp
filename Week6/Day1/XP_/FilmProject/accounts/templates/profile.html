@@ -6,10 +6,9 @@
     <body>
         <h1>User</h1>
         <ul>
-        {% for user in users_all %}
-            <p>{{user}}</p>
-            <li>{{ user.first_name }} {{user.last_name}} {{user.username}}</li>
+        {% for user in object_list %}
+            <li>{{user.first_name}} {{user.last_name}} {{user.username}}</li>
         {% endfor %}
-        </ul>
+    </ul>
     </body>
 {% endblock content %}

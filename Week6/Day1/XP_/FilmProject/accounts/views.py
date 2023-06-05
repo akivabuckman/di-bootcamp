@@ -20,15 +20,12 @@ class Signup(CreateView):
 class ProfileView(ListView):
     model = UserProfile
     template_name = 'profile.html'
-    context_object_name = 'profile_list'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        given_id = self.kwargs['pk']
+        queryset = queryset.filter(id=given_id)
+        return queryset
 
-    def get_queryset(self):  # modifying / filtering the object list queryset
-        query = self.request.GET.get('query', None)
-        if query:
-            users_all = UserProfile.objects.filter(Q(id=id))
-        else:
-            users_all = UserProfile.objects.all()
-        return users_all  # return what will be used as the post_list
 def logout_view(request):
     logout(request)
     return redirect('homepage')
