@@ -1,13 +1,12 @@
 {% extends 'partials/base.html' %}
 
-{% include 'partials/navbar.html' %}
 {% block content %}
     <body>
         <form method="post">
             {%csrf_token%}
             {{form}}
-            <br>
-            <button type="submit"> submit </button>
+            <p>Are you sure you want to Favorite?</p>
+            <button type="submit"> Add </button>
         </form>
     </body>
 {% endblock content %}

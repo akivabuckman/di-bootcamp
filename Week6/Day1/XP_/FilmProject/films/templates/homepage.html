@@ -9,7 +9,7 @@
 <body>
     <h1>Films</h1>
     <ul>
-        {% for film in homepage %}
+        {% for film in all_films %}
           <li>{{ film.title }} {{film.director}} {{film.rating}}</li>
         {% endfor %}
     </ul>
