@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="get">
+        {{search}}
+        <button type="submit"> search </button>
+    </form>
+
+    <h1> Books </h1>
+
+    {% for book in book_list%}
+        <p>
+            {{book.title}} by {{book.author}}
+            <br>
+            <a href="{%url 'book' book.id %}">View Book</a>
+
+        </p>
+    {%endfor%}
+    
+{% endblock content %}

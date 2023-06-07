@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1> Book </h1>
+
+
+        <p>
+            {{book.title}}, by {{book.author}}
+          <br>
+            Published on {{book.published_date}}
+            <br>
+            {{book.description}}
+            <br>
+            Page count: {{book.page_count}} pages
+            <br>
+            Categories: {{book.categories}}
+            <br>
+            Average Rating: {{avg}}
+            <br>
+            <img src="{{book.thumbnail_url}}" alt="{{book.title}}">
+            <br>
+            <a href="{%url 'write-review' book.id %}">Write Review</a>
+        </p>
+
+{% endblock content %}
