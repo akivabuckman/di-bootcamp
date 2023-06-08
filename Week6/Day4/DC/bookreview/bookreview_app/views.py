@@ -56,10 +56,11 @@ class WriteReviewView(CreateView):
     success_url = reverse_lazy('books')
 
     def get_initial(self):
-        initial = super().get_initial()
+        # initial = super().get_initial()
         initial_id = self.kwargs['pk']
         CURSOR.execute(f"SELECT title FROM bookreview_app_book WHERE id={initial_id}")
         initial_title = CURSOR.fetchall()[0][0]
+        print(initial_title)
         return {'title': initial_title}
 
 class RegisterView(CreateView):

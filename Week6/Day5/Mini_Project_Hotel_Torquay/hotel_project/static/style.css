@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.banner {
+  background-image: url('https://www.schoolies.com/images/hotels/220329112915/2956/large/new-13.jpg');
+  background-position: center;
+  background-size: cover;
+  height: 400px;
+  position: relative;
+}
+
+.banner-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+}
+
+.content {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.booking-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.reviews-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f9a602;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+}
