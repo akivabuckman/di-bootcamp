@@ -1,12 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
-    <h1> Login </h1>
-    <form method="post">
-        {%csrf_token%}
-        {{form.as_p}}
-        <button type="submit"> Login </button>
-    </form>
+
+    <style>
+    section {
+         background-image: url("https://www.kayak.com/rimg/himg/b9/1d/49/leonardo-168594-147803784-249660.jpg?width=2160&height=1215&crop=true&outputtype=webp");
+    }
+
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    .form {
+      width: 400px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form input[type="text"],
+    .form input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .form button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .form button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    /* Form title */
+    .form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    </style>
+
+    <section class="login-container">
+        <div class="form">
+            <h2> Login </h2>
+            <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit"> Login </button>
+        </form>
+        </div>
+
+    </section>
 
 {% endblock content %}
