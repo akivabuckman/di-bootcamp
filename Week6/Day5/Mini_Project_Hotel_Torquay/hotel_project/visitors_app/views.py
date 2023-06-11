@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from .forms import RegisterForm
 from django.contrib.auth.views import LoginView
+from django.views.generic import ListView
+from .models import Booking
 
 
 def visitor_home_page(request):
@@ -22,3 +24,13 @@ class RegisterView(CreateView):
 
 class CustomLoginView(LoginView):
     success_url = reverse_lazy('info-page')
+
+
+class Booking(ListView):
+    model = Booking
+    template_name = 'vacancies.html'
+    context_object_name = 'vacancies'
+
+    def get_queryset(self):
+        all_vacancies = Booking.objects.all()
+        return all_vacancies
