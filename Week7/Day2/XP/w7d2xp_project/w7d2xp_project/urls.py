@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
 from w7d2xp_app.views import DepartmentListAPIView, DepartmentCreateAPIView, EmployeeListAPIView, EmployeeCreateAPIView, ProjectRetrieveAPIView, ProjectUpdateAPIView, ProjectDestroyAPIView, TaskRetrieveAPIView, TaskUpdateAPIView, TaskDestroyAPIView
+# from w7d2xp_app.viewsets import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    # path('api/', include('w7d2xp_app.urls')),
     path('departments/', DepartmentListAPIView.as_view(), name='department-list'),
     path('create-department/', DepartmentCreateAPIView.as_view(), name='create-department'),
     path('employees/', EmployeeListAPIView.as_view(), name='employee-list'),
