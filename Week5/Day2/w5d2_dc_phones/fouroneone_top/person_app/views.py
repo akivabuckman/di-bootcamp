@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from person_app.models import Person
+from .forms import PersonForm
 
 # Create a view /persons/phonenumber that will display all the info of a person depending on his phone number
 # Create a view /persons/name that will display all the info of a person depending on his name.
@@ -38,3 +39,20 @@ def byname(request, name):
         context = {}
     
     return render(request, 'byname.html', context)
+
+
+def search(request):
+    if request.method == 'POST':
+        form = PersonForm(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data.get('phone_number')
+            name = form.cleaned_data.get('name')
+
+            if phone_number:
+                return redirect('person_by_phone', phone_number=phone_number)
+            elif name:
+                return redirect('person_by_name', name=name)
+    else:
+        form = PersonForm()
+
+    return render(request, 'searchperson.html', {'form': form})
