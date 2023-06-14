@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todos</title>
+</head>
+<body>
+  <section>
+    <ul>
+      {% for i in instances %}
+      <li>
+        {{i.title}}
+        <ul>
+          <li>{{i.details}}</li>
+          <li>Creation: {{i.date_creation}}</li>
+          <li>Deadline: {{i.deadline_date}}</li>
+          <li>Category: {{i.category}}</li>
+        </ul>
+        <button>DONE</button>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</body>
+</html>
