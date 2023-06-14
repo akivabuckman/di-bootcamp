@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Rentals</title>
+</head>
+<body>
+    <ol>
+        {% for i in instances %}
+        <li>{{i.vehicle_type}}</li>
+        <ul>
+            <li>{{i.date_created}}</li>
+            <li>{{i.real_cost}}</li>
+            <li>{{i.vehicle_size}}</li>
+        </ul>
+        <br>
+        {% endfor %}
+    </ol>
+
+</body>
+</html>

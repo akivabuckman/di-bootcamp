@@ -11,13 +11,22 @@ class Customer(models.Model):
     city = models.CharField()
     country = models.CharField()
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class VehicleType(models.Model):
     name = models.CharField()
 
+    def __str__(self):
+        return self.name
+
 
 class VehicleSize(models.Model):
     name = models.CharField()
+
+    def __str__(self):
+        return self.name
 
 
 class Address(models.Model):

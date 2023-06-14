@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Customers</title>
+</head>
+<body>
+    <ol>
+        {% for i in instances %}
+        <li>{{i.first_name}} {{i.last_name}}</li>
+        <ul>
+            <li>{{i.email}}</li>
+            <li>{{i.phone_number}}</li>
+            <li>{{i.address}}, {{i.city}}, {{i.country}}</li>
+        </ul>
+        <br>
+        {% endfor %}
+    </ol>
+
+</body>
+</html>
