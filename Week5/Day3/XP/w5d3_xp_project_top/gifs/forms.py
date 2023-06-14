@@ -1,7 +1,10 @@
+import datetime
 from django import forms
-from .models import Category
+from .models import Category, Gif
+from django.db import models
 
-class CategoryForm(forms.ModelForm):
+
+class GifForm(forms.ModelForm):
     class Meta:
-        model = Category
+        model = Gif
         fields = '__all__'

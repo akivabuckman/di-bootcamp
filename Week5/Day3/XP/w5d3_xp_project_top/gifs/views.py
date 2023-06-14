@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Gif, Category
 import psycopg2
-from .forms import CategoryForm
+from .forms import GifForm
 
 def homepage(request):
     all_gifs = Gif.objects.all()
@@ -13,7 +13,30 @@ def homepage(request):
 
 
 def add_new_gif(request):
-    context = {}
+    context = {
+        'page_title' : "Add New Gif",
+    }
+
+    if request.method == 'POST':
+        form = GifForm(request.POST)
+        if form.is_valid():
+            form_title = form.cleaned_data['title']
+            form_url = form.cleaned_data['url']
+            form_uploader_name = form.cleaned_data['uploader_name']
+            context['formInfo'] = {
+                    'title' : form_title,
+                    'url': form_url,
+                    'uploader_name': form_uploader_name,
+                }
+            print(context['formInfo'])
+            return render(request, 'add_new_gif.html', context)
+        else:
+            print("---ERRORS---", form.errors)
+            context['form'] = form
+            return render(request, 'add_new_gif.html', context)
+
+    else:
+        context['form'] = GifForm()
     return render(request, 'add_new_gif.html', context)
 
 
@@ -58,14 +81,13 @@ def gif(request, gif_id):
     }
     return render(request,'gif.html', context)
 
-from .forms import CategoryForm
-def add_category_view(request):
-    if request.method == 'POST':
-        data = request.POST
-        filled_form = CategoryForm(data)
-        filled_form.save()
-
-    elif request.method == 'GET':
-        category_form = CategoryForm()
-        context = {'form': category_form}
-        return render(request, 'add_category.html', context)
+# def add_category_view(request):
+#     if request.method == 'POST':
+#         data = request.POST
+#         filled_form = CategoryForm(data)
+#         filled_form.save()
+#
+#     elif request.method == 'GET':
+#         category_form = CategoryForm()
+#         context = {'form': category_form}
+#         return render(request, 'add_category.html', context)
