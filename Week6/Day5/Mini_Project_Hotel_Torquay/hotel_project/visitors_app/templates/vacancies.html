@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  margin-left: 10px;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+section a {
+  border: 1px solid black;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #f9a602;
+}
+</style>
+
+<h2>Choose Your Starting Date:</h2>
+
+<section>
+{% for i in available_dates %}
+    <a href = '../book/{{i.1}}'>{{i.0}}</a>
+{% endfor %}
+
+
+</section>
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="register-container">
+    <div class="form">
+        <h2> Book Your Stay </h2>
+        <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit"> Book Now </button>
+    </form>
+    </div>
+
+</section>
+
+{% endblock content %}

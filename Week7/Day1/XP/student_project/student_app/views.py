@@ -13,9 +13,11 @@ from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_RE
 class StudentDetailView(APIView):
 
     def get(self, request, pk, *args, **kwargs):
-        student = Student.objects.get(pk=pk)
+        student = get_object_or_404(Student, pk=pk)
         serializer = StudentSerializer(student, data=request.data)
-        return Response(serializer.data, status=HTTP_200_OK)
+        if serializer.is_valid():
+            return Response(serializer.data, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, *args, **kwargs):
         student = Student.objects.get(pk=pk)

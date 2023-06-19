@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{request.user}}'s Images</title>
+</head>
+<body>
+    {% for post in image_list%}
+        <p>
+            {{post.file}}
+            <br>
+            {{post.title}}
+            <br>
+            {{post.description}}
+            <br>
+            Posted by {{post.user}}
+            <br>
+        </p>
+    {%endfor%}
+</body>
+</html>

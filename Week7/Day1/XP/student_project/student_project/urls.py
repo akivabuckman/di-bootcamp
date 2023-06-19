@@ -6,5 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/students/', StudentListView.as_view(), name='students'),
-    path('api/students/<pk>', StudentDetailView.as_view(), name='student')
+    path('api/students/<int:pk>', StudentDetailView.as_view(), name='student'),
 ]

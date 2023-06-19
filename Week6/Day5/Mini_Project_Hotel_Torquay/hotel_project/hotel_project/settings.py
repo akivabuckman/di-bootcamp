@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'hotel_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'w6d5mp',
+        'NAME': 'w6d5mp6',
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost',

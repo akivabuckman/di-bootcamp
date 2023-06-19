@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Films</h1>
-    <ul>
-        {% for film in all_films %}
-          <li>{{ film.title }} {{film.director}} {{film.rating}}</li>
+{% extends 'partials/base.html' %}
+
+{% block content %}
+<h1>Films</h1>
+{% if user.is_authenticated %}
+    <ol>
+        {% for film in films %}
+          <li>{{ film.title }}</li>
+            <a href="../updateFilm/{{film.id}}">Edit Film</a>
+
+            <ul>
+                <li>Director: {{director}}</li>
+                <a href="../updateDirector/{{director_id}}">Edit Director</a>
+                <li>Rating: {{film.rating}}</li>
+                <li>Date: {{film.release_date}}</li>
+                <li>Available in: {{film.available_in_countries}}</li>
+                <li>Category: {{film.category.name}}</li>
+            </ul>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </ol>
+{% endif %}
+{% endblock %}
