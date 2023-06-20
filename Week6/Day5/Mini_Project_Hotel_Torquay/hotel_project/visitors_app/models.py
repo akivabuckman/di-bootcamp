@@ -24,6 +24,9 @@ class Booking(models.Model):
         null=True
     )
 
+    def __str__(self):
+        return f"ID{self.id}: {self.start_date}, User: {self.user_id}"
+
 
 class Room(models.Model):
     room_number = models.IntegerField()

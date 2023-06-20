@@ -39,15 +39,14 @@
 </style>
 
 <section>
-        <h2> You're All Set! </h2>
-        <h3>Here's your order info:</h3>
+        <h2>Booking #{{details.id}} Details:</h2>
         <ul>
-                <li>Checkin: {{start}}, 15:00</li>
-                <li>Checkout: {{end}}, 13:00</li>
-                <li>Duration: {{duration}} night(s)</li>
-                <li>Guests: {{count}}</li>
-                <li>Room Number: {{room}}, floor 1</li>
-                <li>Total Price: {{price}}</li>
+            <li>Customer: {{details.user_id}}</li>
+            <li>Checkin: {{details.start_date}}, 15:00</li>
+            <li>Checkout: {{details.end_date}}, 13:00</li>
+            <li>Duration: {{details.duration}} night(s)</li>
+            <li>Guests: {{details.person_count}}</li>
+            <li>Room Number: {{room_number}}, floor 1</li>
         </ul>
 </section>
 

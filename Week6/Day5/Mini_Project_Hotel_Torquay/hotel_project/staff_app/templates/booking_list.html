@@ -13,7 +13,7 @@ section {
   flex-wrap: wrap;
 }
 
-section a {
+div > a, section a  {
   border: 1px solid black;
   padding: 8px;
   margin: 8px;
@@ -21,15 +21,19 @@ section a {
   font-size: 16px;
   background-color: lightblue;
 }
+
+div {
+    display: flex;
+}
+
 </style>
-
-<h2>Choose Your Starting Date:</h2>
-
+<div>
+<h2>Existing Bookings:</h2>
+<a href="../booking_detail/1/">Add New Booking</a>
+</div>
 <section>
-{% for i in available_dates %}
-    <a href = '../book/{{i.1}}'>{{i.0}}</a>
+{% for i in bookings %}
+    <a href="../booking_detail/{{ i.id }}">{{ i }}</a>
 {% endfor %}
-
-
 </section>
 {% endblock content %}

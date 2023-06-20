@@ -17,7 +17,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(signal=post_save, sender=Booking)
 def remove_dates(sender, instance, created, **kwargs):
     if created:
-        print(instance.id)
+        pass
         # CURSOR.execute(f"SELECT room_id FROM visitors_app_booking_room WHERE booking_id = {instance.id}")
         # room_id = CURSOR.fetchone()
         # print(room_id)
