@@ -36,6 +36,14 @@
         font-size: 16px;
         margin-bottom: 5px;
     }
+    section a {
+    border: 1px solid black;
+    padding: 8px;
+    margin: 8px;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: lightblue;
+}
 </style>
 
 <section>
@@ -48,6 +56,9 @@
             <li>Guests: {{details.person_count}}</li>
             <li>Room Number: {{room_number}}, floor 1</li>
         </ul>
+        <a href="../../delete_booking_confirm/{{details.id}}">Delete Booking</a>
+        <a href="../../update_booking/{{details.id}}">Update Booking</a>
+
 </section>
 
 {% endblock content %}

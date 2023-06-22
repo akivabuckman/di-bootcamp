@@ -38,17 +38,16 @@
     }
 </style>
 
-<section>
-        <h2> You're All Set! </h2>
-        <h3>Here's your order info:</h3>
-        <ul>
-                <li>Checkin: {{start}}, 15:00</li>
-                <li>Checkout: {{end}}, 13:00</li>
-                <li>Duration: {{duration}} night(s)</li>
-                <li>Guests: {{count}}</li>
-                <li>Room Number: {{room}}, floor 1</li>
-                <li>Total Price: ${{price}}</li>
-        </ul>
+<section class="register-container">
+    <div class="form">
+        <h2> New Visitor Booking </h2>
+        <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit"> Book Now </button>
+    </form>
+    </div>
+
 </section>
 
 {% endblock content %}

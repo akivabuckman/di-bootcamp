@@ -15,6 +15,8 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres import forms as pg_forms
 from datetime import date
 from django.db import models
+from django.contrib.auth.decorators import login_required
+
 
 CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='w6d5mp6')
 CURSOR = CONNECTION.cursor()
@@ -38,11 +40,12 @@ class CustomLoginView(LoginView):
     success_url = reverse_lazy('info-page')
 
 
-class Booking(ListView):
+class Booking(LoginRequiredMixin, ListView):
     model = Booking
     template_name = 'vacancies.html'
     context_object_name = 'vacancies'
-    redirect_field_name = reverse_lazy('login')
+    # redirect_field_name = reverse_lazy('login')
+    login_url = reverse_lazy('visitor-login')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,52 +60,6 @@ class Booking(ListView):
         dates_list.sort()
         context['available_dates'] = dates_list
         return context
-
-
-# class CreateBooking(CreateView, LoginRequiredMixin):
-#     model = Booking
-#     form_class = BookingForm
-#     template_name = 'create_booking.html'
-#     login_url = reverse_lazy('visitor_login')
-#     success_url = reverse_lazy('booking_success')
-#
-#     def dates_between(self, start_date, end_date):
-#         delta = end_date - start_date
-#         dates = [start_date + datetime.timedelta(days=i) for i in range(delta.days + 1)]
-#         return dates
-#
-#     def get_initial(self):
-#         given_string = self.kwargs['date']
-#         self.start_date = datetime.datetime.strptime(given_string, '%Y%m%d').date()
-#         self.end_date = self.start_date + datetime.timedelta(1)
-#         return {
-#             'user': self.request.user,
-#             'user_id': self.request.user,
-#             'start_date': self.start_date,
-#             'end_date': self.end_date
-#         }
-#
-#     def form_valid(self, form):
-#         form.instance.duration = (form.instance.end_date - form.instance.start_date).days
-#         all_dates = self.dates_between(self.start_date, self.end_date)
-#         big_enough_rooms = []
-#         k = 0
-#         while len(big_enough_rooms) == 0:
-#             big_enough_rooms = Room.objects.filter(capacity=form.instance.person_count + k)
-#             k += 1
-#         for room in big_enough_rooms:
-#             if all(day in room.dates for day in all_dates):
-#                 form.instance.save()
-#                 form.instance.room.set([room])
-#
-#                 break
-#         CURSOR.execute(f"SELECT room_id FROM visitors_app_booking_room WHERE booking_id = {form.instance.id}")
-#         room_id = CURSOR.fetchone()[0]
-#         daily_rate = Room.objects.filter(id=room_id)[0].daily_rate
-#         form.instance.price = daily_rate * form.instance.duration
-#         form.instance.save()
-#         form.instance.save_m2m()
-#         return super().form_valid(form)
 
 
 def dates_between(start_date, end_date):
@@ -149,7 +106,6 @@ def create_booking(request, date):
                     ).to_python(pre_booking_dates)
 
                     room.save()
-                    # CURSOR.execute(f"UPDATE visitors_app_room SET dates={pre_booking_dates} WHERE id={room.id}")
                     return render(request, 'booking_success.html', {'price': booking.price,
                                                                     'start': booking.start_date,
                                                                     'end': booking.end_date,
@@ -164,7 +120,7 @@ def create_booking(request, date):
             'end_date': end_date
         })
 
-    return render(request, 'create_booking.html', {'form': form})
+    return render(request, 'staff_create_booking.html', {'form': form})
 
 
 class BookingSuccess(DetailView):

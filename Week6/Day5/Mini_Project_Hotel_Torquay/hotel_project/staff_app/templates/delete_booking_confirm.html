@@ -36,19 +36,22 @@
         font-size: 16px;
         margin-bottom: 5px;
     }
+section a {
+  border: 1px solid black;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: lightblue;
+}
 </style>
-
 <section>
-        <h2> You're All Set! </h2>
-        <h3>Here's your order info:</h3>
-        <ul>
-                <li>Checkin: {{start}}, 15:00</li>
-                <li>Checkout: {{end}}, 13:00</li>
-                <li>Duration: {{duration}} night(s)</li>
-                <li>Guests: {{count}}</li>
-                <li>Room Number: {{room}}, floor 1</li>
-                <li>Total Price: ${{price}}</li>
-        </ul>
+    <h2>Confirm Deletion</h2>
+    <p>Are you sure you want to delete booking #{{details.id}}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+        <a href="../booking_list">Go Back</a>
+    </form>
 </section>
-
 {% endblock content %}

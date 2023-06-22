@@ -1,20 +1,16 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Booking
+from visitors_app.models import Booking
 import datetime
 
-class RegisterForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password1', 'password2']
+
 
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = '__all__'
         widgets = {
-            'user_id': forms.HiddenInput(),
             'duration': forms.HiddenInput(),
             'price': forms.HiddenInput(),
             'room': forms.HiddenInput(),
@@ -32,8 +28,8 @@ class BookingForm(forms.ModelForm):
             self.add_error('end_date', "Dates must be between July 1 and Dec 31 2023")
         if start_date and end_date and end_date <= start_date:
             self.add_error('end_date', "End date must be after the start date.")
-        if 1 > person_count or 4 < person_count:
+        if 1 > person_count or 5 < person_count:
             self.add_error('person_count', "We only have rooms for 2-4 people.")
         return cleaned_data
 
-
+# class DeleteBookingForm(forms.)
