@@ -58,7 +58,7 @@ function changeEnough(itemPrice, amountOfChange) {
 //XP4
 function hotelCost() {
     do {
-        var nights = parseInt(prompt("how many nights?"))
+        var nights = parseInt(prompt("how many nights at hotel?"))
     }
     while (isNaN(nights))
     return (nights * 140)
@@ -79,10 +79,21 @@ function planeRideCost() {
     }
 }
 
-rentalCarCost() {
+function rentalCarCost() {
     do {
-        var nights = parseInt(prompt("how many nights?"))
+        var days = parseInt(prompt("how many days for car?"))
     }
-    while (isNaN(nights))
+    while (isNaN(days));
+    let cost;
+    if (days > 10) {
+        cost = days * 40 * .95;
+    } else {
+        cost = days * 40;
+    };
+    return cost
+}
+
+function totalVacationCost() {
+    return `Car cost: $${rentalCarCost()}, hotel cost: $${hotelCost()}, plane cost: $${planeRideCost()}`
 }
 
