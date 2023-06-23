@@ -142,29 +142,32 @@ def update_booking(request, booking_id):
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
+            current_obj = Booking.objects.filter(id=booking_id)[0]
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
-            all_dates = dates_between(start_date, end_date)
-            form.duration = len(all_dates)
+            new_dates = dates_between(start_date, end_date)
+            old_dates = dates_between(current_obj.start_date, current_obj.end_date)
+            form.duration = len(new_dates)
             big_enough_rooms = []
             k = 0
             while len(big_enough_rooms) == 0:
                 big_enough_rooms = Room.objects.filter(capacity=form.cleaned_data['person_count'] + k)
                 k += 1
             for room in big_enough_rooms:
-                if all(day in room.dates for day in all_dates):
+                if all(day in room.dates for day in new_dates):
                     booking = form.save(commit=False)
+                    booking.id = booking_id
                     booking.duration = form.duration
                     booking.price = Room.objects.filter(id=room.id)[0].daily_rate * form.duration
                     booking.save()
                     booking.room.add(room)
-                    CURSOR.execute(f"DELETE FROM visitors_app_booking_room WHERE booking_id={booking.id}")
-                    CURSOR.execute(
-                        f"INSERT INTO visitors_app_booking_room(booking_id, room_id) VALUES ({booking.id}, {room.id})")
+                    CURSOR.execute(f"DELETE FROM visitors_app_booking_room WHERE booking_id={booking_id} AND room_id != {room.id}")
+                    CONNECTION.commit()
                     pre_booking_dates = room.dates
-                    for day in all_dates:
+                    for day in new_dates:
                         pre_booking_dates.remove(day)
-
+                    for day in old_dates:
+                        pre_booking_dates.append(day)
                     room.dates = ArrayField(
                         base_field=ArrayField(base_field=models.DateField()),
                         default=list,

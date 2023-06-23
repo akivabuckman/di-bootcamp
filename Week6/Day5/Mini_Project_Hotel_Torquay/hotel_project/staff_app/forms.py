@@ -31,5 +31,3 @@ class BookingForm(forms.ModelForm):
         if 1 > person_count or 5 < person_count:
             self.add_error('person_count', "We only have rooms for 2-4 people.")
         return cleaned_data
-
-# class DeleteBookingForm(forms.)
