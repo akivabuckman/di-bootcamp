@@ -7,11 +7,7 @@ do {
     if (i > j) {
         console.log(`${i} bottles of beer on the wall`);
         console.log(`${i} bottles of beer`);
-        if (j==1) {
-            console.log(`Take ${j} down, pass it around`);
-        } else {
-            console.log(`Take ${j} down, pass them around`);
-        }
+        console.log(`Take ${j} down, pass ${j==1 ? 'it' : 'them'} around`)
         if (i-j == 1) {
             console.log(`Now you got ${i-j} bottle of beer on the wall`)
         } else {

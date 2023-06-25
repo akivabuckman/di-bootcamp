@@ -17,8 +17,10 @@ from datetime import date
 from django.db import models
 from django.contrib.auth.decorators import login_required
 
-
-CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='w6d5mp6')
+CONNECTION = psycopg2.connect(host='localhost',
+                              user='postgres',
+                              password='1234',
+                              dbname='w6d5mp7')
 CURSOR = CONNECTION.cursor()
 
 

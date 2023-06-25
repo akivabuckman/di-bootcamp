@@ -11,11 +11,10 @@ from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 
-
-
-
-
-CONNECTION = psycopg2.connect(host='localhost', user='postgres', password='1234', dbname='w6d5mp6')
+CONNECTION = psycopg2.connect(host='localhost',
+                              user='postgres',
+                              password='1234',
+                              dbname='w6d5mp7')
 CURSOR = CONNECTION.cursor()
 
 
@@ -152,6 +151,7 @@ def update_booking(request, booking_id):
             k = 0
             while len(big_enough_rooms) == 0:
                 big_enough_rooms = Room.objects.filter(capacity=form.cleaned_data['person_count'] + k)
+
                 k += 1
             for room in big_enough_rooms:
                 if all(day in room.dates for day in new_dates):
