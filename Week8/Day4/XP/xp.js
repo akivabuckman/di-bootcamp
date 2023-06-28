@@ -147,4 +147,4 @@ class Mammal extends Animal {
 // Create a farmerCow object that is an instance of the class Mamal. The object accepts a name, a type and a color and calls the sound method that “moos” her information.
 // For example: Moooo I'm a cow, named Lily and I'm brown and white
 let farmerCow = new Mammal(animalName='Lily', type='cow', color='brown and white', animalSound='Moooo');
-farmerCow.sound('Moooo')
+farmerCow.sound('Moooo');
