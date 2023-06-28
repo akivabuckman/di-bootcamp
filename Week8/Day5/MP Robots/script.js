@@ -98,7 +98,6 @@ function displayRobots(relevantRobots) {
 }
 
 // initialization of the webpage upon load
-// let relevantRobots = robots;
 displayRobots(robots);
 
 // what happens when search occurs:
