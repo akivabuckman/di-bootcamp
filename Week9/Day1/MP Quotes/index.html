@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="container">
+        <div>
+            <input type="submit" value="Generate Quote" id="quoteButton">
+        </div>
+        <div id="quoteBox"></div>
+    </section>
+    <section id="buttons">
+        <input type="button" value=" Character Count " id="charButton">
+        <input type="button" value=" Chars w/o Space " id="NoSpaceButton">
+        <input type="button" value=" Word Count " id="wordButton">
+        <input type="button" value=" Like " id="likeButton">
+    </section>
+    <section id="quoteParams">
+    </section>
+    <form name="newQuote">
+        <label for="quote">Quote:</label>
+        <input type="text" name="quote">
+        <label for="author">Author:</label>
+        <input type="text" name="author">
+        <input type="button" value=" Add Quote " id="addButton">
+    </form>
+    <form id="authorSearch">
+        <label for="authorEntry"> Search Authors: </label>
+        <input type="text" name="authorEntry">
+        <input type="button" value=" Search " id="searchButton">
+    </form>
+    <section id="searchResults">
+        
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
