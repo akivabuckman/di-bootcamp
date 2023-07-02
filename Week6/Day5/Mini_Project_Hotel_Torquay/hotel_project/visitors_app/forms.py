@@ -4,10 +4,6 @@ from django import forms
 from .models import Booking
 import datetime
 
-class RegisterForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password1', 'password2']
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -37,3 +33,7 @@ class BookingForm(forms.ModelForm):
         return cleaned_data
 
 
+class RegisterForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']

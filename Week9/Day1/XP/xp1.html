@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="XP1">
+        <h1>XP1</h1>
+        <form method="GET">
+            <label for="name">Name</label>
+            <br>
+            <input type="text" name="name">
+            <br>
+            <label for="comments">Comments</label>
+            <br>
+            <textarea name="comments" rows="5"></textarea>
+            <br>
+            <input type="submit" value=" Send ">
+        </form> 
+        <!-- the data will appear in the URL -->
+        <script src="xp1.js"></script>
+    </div>
+    <div class="XP2">
+        <h1>XP2</h1>
+        <form method="POST">
+            <label for="name">Name</label>
+            <br>
+            <input type="text" name="name">
+            <br>
+            <label for="comments">Comments</label>
+            <br>
+            <textarea name="comments" rows="5"></textarea>
+            <br>
+            <input type="submit" value=" Send ">
+        </form> 
+        <!-- the data will appear in the data body, not in the URL -->
+        <script src="xp1.js"></script>
+    </div>
+</body>
+</html>
