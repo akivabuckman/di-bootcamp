@@ -74,8 +74,8 @@ const robots = [
 function displayRobots(relevantRobots) {
     let parent = document.getElementById('card-container');
     while (parent.firstChild) {
-        parent.removeChild(parent.firstChild)
-    }
+        parent.removeChild(parent.firstChild);
+    };
     for (let robot of relevantRobots) {
         let newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'card');
