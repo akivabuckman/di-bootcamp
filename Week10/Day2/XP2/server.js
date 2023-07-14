@@ -4,8 +4,22 @@ const user = {firstname: 'John',lastname: 'Doe'}
 
 app.listen(3000, ()=>{console.log("on 3000")});
 
+
 app.get("/users", (req, res) => {
-    res.json(user);
+    console.log(JSON.stringify(user))
+    res.sendFile(__dirname + '/public/index.html');
 });
 
-app.use('/', express.static(__dirname + '/public'));
+// Create a route /, and use a GET request method.
+// The path of the route should contain the route parameter id.
+// The handler function of the route should respond with the value of the route parameter. Check out req.params.
+
+// app.get("/:id", (req, res) => {
+//     console.log(req.params);
+//     res.json(req.params);
+// });
+
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + '/public/xp3.html');
+});
+
