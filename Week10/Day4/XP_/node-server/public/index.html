@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration and Login Forms</title>
+</head>
+<body>
+  <h1>Registration Form</h1>
+  <form id="registerForm" action="/register" method="post">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required><br>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
+
+    <input type="submit" value="Register" id="registerBtn" disabled>
+  </form>
+
+  <h1>Login Form</h1>
+  <form id="loginForm" action="/login" method="post">
+    <label for="loginUsername">Username:</label>
+    <input type="text" id="loginUsername" name="loginUsername" required><br>
+
+    <label for="loginPassword">Password:</label>
+    <input type="password" id="loginPassword" name="loginPassword" required><br>
+
+    <input type="submit" value="Login" id="loginBtn" disabled>
+  </form>
+  <div id="messageBox"></div>
+  <script src="script.js"></script>
+
+</body>
+</html>
