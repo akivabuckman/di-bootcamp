@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <%- include('../partials/head'); %>
+</head>
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<body>
+    <form action="/index" id="titleForm">
+        <label for="titleSearch">Search by Title:</label>
+        <input type="text" id="titleSearch">
+        <input type="button" value="Search" id="titleButton">
+    </form>
+
+    <form action="/index" id="categoryForm">
+        <label for="categorySearch">Search by Category:</label>
+        <input type="text" id="categorySearch">
+        <input type="button" value="Search" id="categoryButton">
+    </form>
+
+    <% if (posts.length === 0) { %>
+        <p>No posts found.</p>
+    <% } else { %>
+        <ul>
+            <% posts.forEach(post => { %>
+                <li><%= post.title %></li>
+            <% }); %>
+        </ul>
+    <% } %>
+<script src="search.js"></script>
+</body>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
