@@ -10,19 +10,6 @@ app.listen(3000, ()=> console.log("server.js on port 3000"))
 let Parser = require('rss-parser');
 let parser = new Parser();
 
-// (async () => {
-
-//   let feed = await parser.parseURL(rssUrl);
-//   // console.log(feed.title);
-
-//   feed.items.forEach(item => {
-//     // console.log(item.title + ':' + item.link)
-//   });
-
-// })();
-
-// ejs
-
 app.set("view engine", "ejs");
 
 
@@ -61,7 +48,6 @@ app.post("/search/category", async (req, res) => {
 
 const filterCategory = (feed, searchTitle) => {
   const query = searchTitle.charAt(0).toUpperCase() + searchTitle.slice(1).toLowerCase();
-  console.log(query);
   const filteredFeed = feed.filter((item) => item.categories.includes(query));
   return filteredFeed;
 };
