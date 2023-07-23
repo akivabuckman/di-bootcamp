@@ -1,0 +1,17 @@
+#root {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.languageBox {
+    display:flex;
+    flex-direction: row;
+    border: 1px solid black;
+    width: 10%;
+    background-color: antiquewhite;
+    justify-content: space-around;
+    margin: 5px;
+    align-items: center;
+}
