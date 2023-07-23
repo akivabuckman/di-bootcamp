@@ -1,10 +1,10 @@
 import React from "react";
-import UserFavoriteAnimals from "./components/FavoriteAnimals.component"
+import UserFavoriteAnimals from "./components/UserFavoriteAnimals.js"
 import Exercise from "./components/Exercise3"
-import './style.css'
+import './Exercise.css'
 
 export function App1() {
-  // const myElement = <h1>Hello World!</h1>; part 1
+  // const myElement = <p>Hello World!</p>; // part 1
   const sum = 5 + 5;
   const myElement = <h1>React is {sum} times better with JSX</h1>
   return myElement 

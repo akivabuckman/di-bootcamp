@@ -1,4 +1,6 @@
 import React from 'react';
+import '../Exercise.css'
+
 
 const style_header = {
     color: "white",
