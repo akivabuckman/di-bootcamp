@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+}
+
+#results {
+  background-color: green;
+  color: white;
+  padding:10px
+}
+
+#formDiv {
+  background-color: peachpuff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+p {
+  margin: 20px
+}
