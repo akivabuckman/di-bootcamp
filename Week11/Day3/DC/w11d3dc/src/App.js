@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import Form from './components/form';
+import Master from './components/form';
 
 function App() {
   return (
     <div className="App">
-      <Form />
+      <Master />
     </div>
   );
 }
