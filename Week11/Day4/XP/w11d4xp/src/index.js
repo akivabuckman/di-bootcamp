@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import XP4 from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import ErrorBoundary from './components/ErrorBoundary';
+import Example1 from './components/Example1';
+import Example2 from './components/Example2';
+import Example3 from './components/Example3';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <XP4 />
   </React.StrictMode>
 );
 
