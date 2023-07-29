@@ -39,9 +39,9 @@
 
 #colorDiv {
   display: flex;
-  align-items: center; /* Vertically center children */
-  justify-content: center; /* Horizontally center children */
-  height: 300px; /* Set a fixed or percentage-based height for the colorDiv */
+  align-items: center; 
+  justify-content: center; 
+  height: 300px; 
 }
 
 #whiteDiv {
