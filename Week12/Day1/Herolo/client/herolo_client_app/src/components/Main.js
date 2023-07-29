@@ -67,7 +67,7 @@ const Main = () => {
     }
 
     const addToFavorites = () => {
-        setFavorites([cityName, ...favorites]);
+        setFavorites([{cityKey: cityName}, ...favorites]);
         console.log(favorites)
     };
 
@@ -90,7 +90,7 @@ const Main = () => {
                 <input onChange={cityComplete} type="text" id="cityInput" placeholder="Enter City..."></input>
             </form>
             <div id="currentWeather">
-                {favorites.includes(cityName) ? 
+                {Object.keys(favorites).includes(cityKey) ? 
                     <button onClick={removeFromFavorites}>Remove {cityName} from Favorites</button> :
                     <button onClick={addToFavorites}>Add {cityName} to Favorites</button>}
                 <h3>Current Weather for {cityName}:</h3>
