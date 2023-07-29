@@ -16,10 +16,6 @@ const App = () => {
 
   const changeIndex = () => {
     const newIndex = Math.floor(Math.random()*quotes.length)
-    console.log(newIndex)
-    console.log(quotes)
-    console.log(quotes[newIndex])
-    console.log("len", quotes.length)
     setQuoteIndex(newIndex)
     quotes.splice(quoteIndex, 1)
   }
