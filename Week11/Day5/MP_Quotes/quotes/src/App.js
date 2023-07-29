@@ -15,9 +15,11 @@ const App = () => {
 
 
   const changeIndex = () => {
-    const newIndex = Math.floor(Math.random()*quotes.length)
-    setQuoteIndex(newIndex)
-    quotes.splice(quoteIndex, 1)
+    if (quotes.length > 1) {
+        const newIndex = Math.floor(Math.random()*(quotes.length))
+        setQuoteIndex(newIndex)
+        quotes.splice(quoteIndex, 1)
+    }
   }
 
   const changeColor = () => {
