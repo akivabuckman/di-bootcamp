@@ -48,3 +48,8 @@
   padding: 10px;
   border-radius: 20px;
 }
+
+button {
+  border-radius: 20px;
+  padding: 10px
+}
