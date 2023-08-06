@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Akiva Buckman - Portfolio</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <section class="hero">
+    <div class="profile">
+      <img src="https://media.licdn.com/dms/image/C5603AQEvvjDbycooJw/profile-displayphoto-shrink_800_800/0/1580733541188?e=1697068800&v=beta&t=BPTEHhJkg2cLsgwnory7vWXsuj1LZmdtGYvanIIjirA" alt="Profile Picture">
+      <h1>Your Name</h1>
+      <p>Full Stack Developer</p>
+    </div>
+    <div class="bio">
+      <p>I'm a full stack developer experienced in Python, with a background in MEP engineering. I'm obsessed with learning new technologies and solving problems with them. I am seeking an opportunity to apply these skills as a full-stack developer.</p>
+       </div>
+  </section>
+
+  <section class="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li>JavaScript - React, Node.js, Express etc.</li>
+      <li>Python - Django, Django REST, Selenium, OOP, Pandas, Tkinter, Xlwings, etc.</li>
+      <li>SQL - PostGreSQL</li>
+      <li>Postman</li>
+      <li>Excel (expert) - VBA</li>
+      <li>AutoCAD</li>
+    </ul>
+  </section>
+
+  <section class="education">
+    <h2>Education</h2>
+    <div class=educationDiv>
+      <p class="educationDegree">Full Stack Web Development, Python and JavaScript Program</p>
+      <p class="educationInstitution">Developers Institute, TLV Coding Bootcamp</p>
+      <p class="educationDate">04/2023 - 08/2023</p>
+    </div>
+    <div class=educationDiv>
+      <p class="educationDegree">Civil Engineering, BSc</p>
+      <p class="educationInstitution">Ariel University</p>
+      <p class="educationDate">2015-2019</p>
+    </div>
+  </section>
+
+  <section class="links">
+    <h2>Links</h2>
+    <ul>
+      <li><a href="https://github.com/akivabuckman" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/akiva-buckman-644350195/" target="_blank">LinkedIn</a></li>
+    </ul>
+  </section>
+
+  <section class="resume">
+    <a href="../resume/Akiva Buckman CV.pdf" download="Akiva Buckman CV.pdf"><button>Download Resume</button></a>
+  </section>
+
+  <section class="projects">
+    <h2>Projects</h2>
+    <!-- List your projects here -->
+    <!-- Example: -->
+    <div class="project">
+      <h3>Music Training Website</h3>
+      <p>A tool that transforms the user's keyboard into a piano</p>
+      <ul>
+        <li>Presents users with notes of songs for them to play</li>
+        <li>Presents users with audio notes for them to play back</li>
+        <li>Allows users to record and save their own songs</li>
+      </ul>
+      <img src="https://files.slack.com/files-pri/T7P4CAKAS-F05LLESBJKT/image.png" alt="music">
+    </div>
+
+    <div class="hotel">
+      <h3>Hotel Website</h3>
+      <p>Fully functional Django-built website</p>
+      <ul>
+        <li>Guest / Visitor authentication</li>
+        <li>Book and edit reservations at the hotel</li>
+        <li>Availability and room assignment populated and automated through Python and SQL</li>
+      </ul>
+      <img src="https://files.slack.com/files-pri/T7P4CAKAS-F05LLESBJKT/image.png" alt="music">
+    </div>
+
+    <div class="recipe">
+      <h3>Recipe Manager</h3>
+      <p>OOP, GUI tool that allows users to search for recipes and add them to their favorites</p>
+      <ul>
+        <li>GUI with Tkinter</li>
+        <li>Search recipes using a recipe API</li>
+        <li>Allow users to add custom recipes</li>
+        <li>Favorites and user info stored in SQL database using OOP and Inheritance</li>
+        <li>Option to email favorite recipes using SMTPLib and MIME</li>
+      </ul>
+      <img src="https://files.slack.com/files-pri/T7P4CAKAS-F05LLESBJKT/image.png" alt="music">
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Contact Me</h2>
+    <form action="submit-form.php" method="POST">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+</body>
+</html>
